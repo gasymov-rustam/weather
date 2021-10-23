@@ -27,9 +27,6 @@ export function DataProvider({ children }) {
 
 function reducer(state, { type, payload }) {
   switch (type) {
-    case "SET_COORD": {
-      return { ...state, coords: payload };
-    }
     case "INIT": {
       return { ...state, citiesId: payload };
     }

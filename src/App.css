@@ -14,3 +14,29 @@
     color: blueviolet;
     margin: 50px 0;
 }
+
+.searchForm {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 16px 0;
+    margin-top: 50px;
+}
+
+.searchInput {
+    padding: 4px 8px;
+    border-radius: 5px;
+}
+
+.searchBtn {
+    padding: 4px 16px;
+    border: 1px solid black;
+    border-radius: 5px;
+    background:#b3d8e6;
+    cursor: pointer;
+    transition: .5s;
+}
+
+.searchBtn:hover {
+    text-decoration: underline;
+}

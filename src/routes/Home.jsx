@@ -13,12 +13,7 @@ export default function Home() {
         dispatch({ type: "LOAD", payload: true });
         if (id) {
           const [city, cityError] = await getCurrentWeatherByCityId(id);
-          if (cityError) {
-            alert("City not found!");
-            dispatch({ type: "LOAD", payload: false });
-            return;
-          }
-          if (city) {
+          if (!cityError) {
             cities.push(city);
             dispatch({ type: "CURRENT_WEATHER_CITIES", payload: cities });
             dispatch({ type: "LOAD", payload: false });
