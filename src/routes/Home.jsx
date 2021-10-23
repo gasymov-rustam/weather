@@ -1,7 +1,40 @@
+import { getCurrentWeatherByCityId } from "../api/weather";
+import CurrentWeather from "../components/CurrentWeather/CurrentWeather";
+import { useData } from "../hooks/useData";
+import { useEffect } from "react";
+import Load from "../components/Load/Load";
+
 export default function Home() {
-    return (
-        <div>
-            <h1>home</h1>
-        </div>
-    )
+  const [{ citiesId, citiesWeather, load }, dispatch] = useData();
+  useEffect(() => {
+    let cities = [];
+    citiesId.forEach((id) => {
+      (async function () {
+        dispatch({ type: "LOAD", payload: true });
+        if (id) {
+          const [city, cityError] = await getCurrentWeatherByCityId(id);
+          if (cityError) {
+            alert("City not found!");
+            dispatch({ type: "LOAD", payload: false });
+            return;
+          }
+          if (city) {
+            cities.push(city);
+            dispatch({ type: "CURRENT_WEATHER_CITIES", payload: cities });
+            dispatch({ type: "LOAD", payload: false });
+          }
+        }
+      })();
+    });
+  }, [citiesId, dispatch]);
+  return (
+    <div>
+      {load && <Load />}
+      {citiesId.length !== 0 ? (
+        citiesWeather.map((item) => <CurrentWeather key={item.id} data={item} />)
+      ) : (
+        <h2 className="homeTitle">Not found favorites cities</h2>
+      )}
+    </div>
+  );
 }

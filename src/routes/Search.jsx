@@ -1,16 +1,11 @@
 import { useHistory } from "react-router";
-import { getCurrentWeatherByCityName } from "../api/weather";
-import { useData } from "../hooks/useData";
 
 export default function Search() {
-  const [, dispatch] = useData();
   const history = useHistory();
   function handleSubmit(e) {
+    e.preventDefault();
     const searchQuery = e.target.search.value.trim();
-    // history.push(`/city/${city.name},${city.sys.country}`);
     history.push(`/city/${searchQuery}`);
-    console.log(history);
-    console.log(searchQuery);
   }
 
   

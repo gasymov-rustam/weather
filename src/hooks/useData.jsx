@@ -1,13 +1,10 @@
 import { useMemo, useContext, useEffect, useReducer, createContext } from "react";
 
 const initialState = {
-  coords: {
-    lat: null,
-    lon: null,
-  },
   load: false,
   fullWeather: {},
   currentWeather: {},
+  citiesWeather: [],
   citiesId: [],
 };
 const DataContext = createContext(initialState);
@@ -22,7 +19,7 @@ export function DataProvider({ children }) {
       window.localStorage.setItem("citiesId", JSON.stringify([]));
     dispatch({
       type: "INIT",
-      payload: JSON.parse(window.localStorage.getItem("citiesId")) ,
+      payload: JSON.parse(window.localStorage.getItem("citiesId")),
     });
   }, []);
   return <DataContext.Provider value={memoValue}>{children}</DataContext.Provider>;
@@ -41,6 +38,9 @@ function reducer(state, { type, payload }) {
     }
     case "CURRENT_WEATHER": {
       return { ...state, currentWeather: payload };
+    }
+    case "CURRENT_WEATHER_CITIES": {
+      return { ...state, citiesWeather: payload };
     }
     case "FULL_WEATHER": {
       return { ...state, fullWeather: payload };

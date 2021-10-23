@@ -18,7 +18,7 @@ export default function CurrentWeather({ data }) {
           width="150"
           height="150"
           loading="lazy"
-          alt="picture didn`t find"
+          alt="didn`t find"
           className={styles.icon}
         />
         <p className={styles.weatherDescription}>{data.weather[0].description}</p>

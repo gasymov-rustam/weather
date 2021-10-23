@@ -7,3 +7,10 @@
 .app{
     flex: 1;
 }
+
+.homeTitle{
+    text-align: center;
+    font-size: 3em;
+    color: blueviolet;
+    margin: 50px 0;
+}
