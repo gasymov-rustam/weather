@@ -5,7 +5,6 @@ export default function FullWeather({ data }) {
   const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
   return (
     <>
-      <hr />
       <h2 className={styles.title}>Hourly</h2>
       <div className={styles.hourlyWrapper}>
         {times.map((time) => (
@@ -28,7 +27,6 @@ export default function FullWeather({ data }) {
           </div>
         ))}
       </div>
-      <hr />
       <h2 className={styles.title}>Daily</h2>
       <div className={styles.dailyWrapper}>
         {days.map((day, idx) => (
