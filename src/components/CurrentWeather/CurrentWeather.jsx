@@ -1,10 +1,10 @@
 import styles from "./CurrentWeather.module.css";
 import { useData } from "../../hooks/useData";
+import { createRouteWind } from "../../utils/utils";
 export default function CurrentWeather({ data }) {
   const [{ citiesId }, dispatch] = useData();
   return (
     <>
-      {console.log(data)}
       <div className={styles.wrapper}>
         <div className={styles.update}>
           LAST UPDATE: <span>{`${new Date(data.dt * 1000).toLocaleTimeString()}`}</span>
@@ -76,16 +76,9 @@ export default function CurrentWeather({ data }) {
               {data.wind.speed}
               <span>km/h</span>
             </p>
-            <p className={styles.generalData}>
-              <span>wind route</span>
-              <div
-                className={styles.generalDataArrow}
-                style={{ transform: `rotate(${data.wind.deg}deg)` }}
-              >
-                &#10506;
-              </div>
-              {data.wind.deg} deg.
-            </p>
+            <div className={styles.generalData}>
+              <div className={styles.generalDataArrow}>{createRouteWind(data.wind.deg)}</div>
+            </div>
             <p className={styles.generalData}>
               <span>visibility</span> {data.visibility} m.
             </p>

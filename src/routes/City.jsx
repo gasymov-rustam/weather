@@ -9,7 +9,6 @@ import { useData } from "../hooks/useData";
 export default function City() {
   const [{ load, currentWeather, fullWeather }, dispatch] = useData();
   const { cityName } = useParams();
-  console.log(cityName);
   useEffect(() => {
     if (cityName) {
       (async function () {
@@ -51,20 +50,10 @@ export default function City() {
         {Object.keys(currentWeather).length > 0 && <CurrentWeather data={currentWeather} />}
         {Object.keys(fullWeather).length > 0 && <FullWeather data={fullWeather} />}
       </div>
-      {console.log(fullWeather)}
-      {/* {Object.keys(fullWeather).length > 0 && <CurrentWeather data={fullWeather}/>} */}
-      {/* {console.log(fullWeather)} */}
-      
-        {/* <p>{coords.lon}</p> */}
-        {/* <p>{coords.lat}</p> */}
-        {/* <h1>city ({cityName || "none!"})</h1> */}
         {/* https://api.openweathermap.org/data/2.5/onecall?lat={'50.4333'}&lon={'30.5167'}&exclude={part}&appid={'a502141cd6f97ff96bb68d7c77410302'}*/}
         {/* {https://api.openweathermap.org/data/2.5//weather?q=Kiev&appid=a502141cd6f97ff96bb68d7c77410302} */}
         {/* {https://api.openweathermap.org/data/2.5/onecall?lat=33.44&lon=-94.04&exclude=hourly,daily&lang=ru&appid=a502141cd6f97ff96bb68d7c77410302} */}
         {/* {https://api.openweathermap.org/data/2.5//onecall?lat=33.44&lon=-94.04&lang=ru&appid=a502141cd6f97ff96bb68d7c77410302} */}
-        {/* <CityCard data={a} /> */}
-        {/* {console.log(currentWeather.coord)} */}
-      
     </>
   );
 }
