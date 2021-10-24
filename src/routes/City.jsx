@@ -54,7 +54,7 @@ export default function City() {
       {console.log(fullWeather)}
       {/* {Object.keys(fullWeather).length > 0 && <CurrentWeather data={fullWeather}/>} */}
       {/* {console.log(fullWeather)} */}
-      <div>
+      
         {/* <p>{coords.lon}</p> */}
         {/* <p>{coords.lat}</p> */}
         {/* <h1>city ({cityName || "none!"})</h1> */}
@@ -64,7 +64,7 @@ export default function City() {
         {/* {https://api.openweathermap.org/data/2.5//onecall?lat=33.44&lon=-94.04&lang=ru&appid=a502141cd6f97ff96bb68d7c77410302} */}
         {/* <CityCard data={a} /> */}
         {/* {console.log(currentWeather.coord)} */}
-      </div>
+      
     </>
   );
 }
