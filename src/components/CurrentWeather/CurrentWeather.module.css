@@ -13,47 +13,45 @@
   color: #fff;
   position: relative;
   border-radius: 20px;
+  flex-wrap: wrap;
 }
 
 .title {
-  margin-top: 16px;
-  font-size: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 20px;
+  margin-top: 12px;
+  font-size: 14px;
 }
 
 .icon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 30%;
+  width: 20%;
   height: auto;
-  /* border: 2px solid black; */
 }
 
 .weatherDescription {
   text-transform: uppercase;
-  font-size: 1.5em;
 }
 
 .generalDataWrapper {
   display: flex;
   width: 100%;
   justify-content: center;
-  gap: 40px;
+  align-items: center;
+  gap: 60px;
 }
 
-.generalData {
-  font-size: 1.5em;
-}
-
-.time {
-  text-align: center;
-  font-size: 32px;
+.generalDataWrapper > div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
 .containerData {
   width: 100%;
   display: flex;
-  font-size: 24px;
+  font-size: 20px;
   justify-content: space-around;
   align-items: center;
   /* border: 2px solid black; */
@@ -89,4 +87,8 @@
 
 .favoriteCheckbox:checked ~ span {
   color: red;
+}
+
+.update {
+  font-size: .7em;
 }

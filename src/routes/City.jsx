@@ -2,11 +2,12 @@ import { useEffect } from "react";
 import { useParams } from "react-router";
 import { getCurrentWeatherByCityName, getFullWeatherByCoords } from "../api/weather";
 import CurrentWeather from "../components/CurrentWeather/CurrentWeather";
+import FullWeather from "../components/FullWeather/FullWeather";
 import Load from "../components/Load/Load";
 import { useData } from "../hooks/useData";
 
 export default function City() {
-  const [{ load, currentWeather }, dispatch] = useData();
+  const [{ load, currentWeather, fullWeather }, dispatch] = useData();
   const { cityName } = useParams();
   console.log(cityName);
   useEffect(() => {
@@ -49,6 +50,7 @@ export default function City() {
     <>
       {load && <Load />}
       {Object.keys(currentWeather).length > 0 && <CurrentWeather data={currentWeather} />}
+      {Object.keys(fullWeather).length > 0 && <FullWeather data={fullWeather}/>}
       {/* {Object.keys(fullWeather).length > 0 && <CurrentWeather data={fullWeather}/>} */}
       {/* {console.log(fullWeather)} */}
       <div>

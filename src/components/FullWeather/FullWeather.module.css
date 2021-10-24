@@ -1,0 +1,32 @@
+hr {
+  border-top: 1px solid red;
+}
+
+.hourlyWrapper {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+.box{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.title {
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.hourlyWrapper {
+  display: flex;
+  font-size: 12px;
+}
+
+.icon {
+  width: 40%;
+  height: auto;
+}
