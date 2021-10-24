@@ -4,7 +4,11 @@ export default function CurrentWeather({ data }) {
   const [{ citiesId }, dispatch] = useData();
   return (
     <>
+      {console.log(data)}
       <div className={styles.wrapper}>
+        <div className={styles.update}>
+          LAST UPDATE: <span>{`${new Date(data.dt * 1000).toLocaleTimeString()}`}</span>
+        </div>
         <label className={styles.favorite}>
           <input
             type="checkbox"
@@ -23,7 +27,9 @@ export default function CurrentWeather({ data }) {
           <h2 className={styles.time}>{`${new Date().toString().slice(0, 21)}`}</h2>
         </div>
 
-        <p className={styles.weatherDescription}>{data.weather[0].description}</p>
+        <p className={styles.weatherDescription}>
+          {data.weather[0].main}, {data.weather[0].description}
+        </p>
         <div className={styles.generalDataWrapper}>
           <img
             src={`http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`}
@@ -47,6 +53,43 @@ export default function CurrentWeather({ data }) {
               {data.wind.speed} m/s
             </p>
           </div>
+          <div>
+            <p className={styles.generalData}>
+              <span>feels</span>
+              {data.main["feels_like"].toFixed(1)}
+              <span>&#8451;</span>
+            </p>
+            <p className={styles.generalData}>
+              <span>min. temperature</span>
+              {data.main["temp_min"].toFixed(1)}
+              <span>&#8451;</span>
+            </p>
+            <p className={styles.generalData}>
+              <span>max. temperature</span>
+              {data.main["temp_max"].toFixed(1)}
+              <span>&#8451;</span>
+            </p>
+          </div>
+          <div>
+            <p className={styles.generalData}>
+              <span>wind speed</span>
+              {data.wind.speed}
+              <span>km/h</span>
+            </p>
+            <p className={styles.generalData}>
+              <span>wind route</span>
+              <div
+                className={styles.generalDataArrow}
+                style={{ transform: `rotate(${data.wind.deg}deg)` }}
+              >
+                &#10506;
+              </div>
+              {data.wind.deg} deg.
+            </p>
+            <p className={styles.generalData}>
+              <span>visibility</span> {data.visibility} m.
+            </p>
+          </div>
         </div>
 
         <div className={styles.containerData}>
@@ -64,9 +107,6 @@ export default function CurrentWeather({ data }) {
             <span>{`${new Date(data.sys.sunset * 1000).toLocaleTimeString()}`}</span>
             <span>Sunset</span>
           </div>
-        </div>
-        <div className={styles.update}>
-          LAST UPDATE: <span>{`${new Date(data.dt * 1000).toLocaleTimeString()}`}</span>
         </div>
       </div>
     </>

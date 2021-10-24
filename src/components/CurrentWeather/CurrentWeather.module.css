@@ -3,7 +3,6 @@
   background: rgb(64, 179, 218);
   width: 100%;
   height: auto;
-  margin: 16px auto;
   padding: 8px 16px;
   display: flex;
   flex-direction: column;
@@ -37,9 +36,8 @@
 .generalDataWrapper {
   display: flex;
   width: 100%;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
-  gap: 60px;
 }
 
 .generalDataWrapper > div {
@@ -77,12 +75,13 @@
   margin-left: 30px;
 }
 
-.favorite{
+.favorite, .update{
   font-size: 2em;
   position: absolute;
   top: 0;
   right: 1%;
   cursor: pointer;
+  /* border: 1px solid black; */
 }
 
 .favoriteCheckbox:checked ~ span {
@@ -91,4 +90,21 @@
 
 .update {
   font-size: .7em;
+  left: 2%;
+  top: 4%
+}
+
+.favorite{
+  top: 0%;
+}
+
+.generalDataArrow {
+  width: fit-content;
+  display: inline-flex;
+  margin-right: 10px;
+  font-weight: 700;
+}
+
+.generalData span {
+  margin: 0 5px;
 }

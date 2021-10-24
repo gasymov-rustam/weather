@@ -26,7 +26,7 @@ export default function City() {
         }
       })();
     }
-  }, [cityName,dispatch]);
+  }, [cityName, dispatch]);
   useEffect(() => {
     if (currentWeather.coord) {
       (async function () {
@@ -41,16 +41,17 @@ export default function City() {
           dispatch({ type: "LOAD", payload: false });
           dispatch({ type: "FULL_WEATHER", payload: city });
         }
-        
       })();
-      
     }
   }, [currentWeather.coord, dispatch]);
   return (
     <>
       {load && <Load />}
-      {Object.keys(currentWeather).length > 0 && <CurrentWeather data={currentWeather} />}
-      {Object.keys(fullWeather).length > 0 && <FullWeather data={fullWeather}/>}
+      <div className="cityWrapper">
+        {Object.keys(currentWeather).length > 0 && <CurrentWeather data={currentWeather} />}
+        {Object.keys(fullWeather).length > 0 && <FullWeather data={fullWeather} />}
+      </div>
+      {console.log(fullWeather)}
       {/* {Object.keys(fullWeather).length > 0 && <CurrentWeather data={fullWeather}/>} */}
       {/* {console.log(fullWeather)} */}
       <div>

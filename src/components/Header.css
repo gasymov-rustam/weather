@@ -1,20 +1,37 @@
-.header{
-    background-color: #ccc;
-    padding-top: 10px;
+.header {
+  background-color: #ccc;
+  padding-top: 10px;
+  margin-bottom: 20px;
 }
 
-
-.navbar>a:hover{
-    text-decoration: underline;
+.navbar > a:hover {
+  text-decoration: underline;
 }
 .activeLink {
-    background: white;
+  background: white;
 }
 
 .links {
-    color: black;
-    height: 100%;
-    padding: 10px;
-    border-radius: 5px 5px 0 0; 
-    margin: 0 10px;
+  color: black;
+  height: 100%;
+  padding: 10px;
+  border-radius: 5px 5px 0 0;
+  margin: 0 10px;
+}
+
+.cityWrapper {
+  background: rgb(64, 179, 218);
+  width: 100%;
+  height: auto;
+  /* margin: 16px auto; */
+  /* padding: 8px 16px; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  color: #fff;
+  position: relative;
+  border-radius: 20px;
+  flex-wrap: wrap;
 }
