@@ -1,26 +1,36 @@
+import { useState } from "react";
 import { useHistory } from "react-router";
+import { OpenStreetMapProvider } from 'leaflet-geosearch';
 
 export default function Search() {
+  const [city, setCity] = useState('')
   const history = useHistory();
+  const provider = new OpenStreetMapProvider();
   function handleSubmit(e) {
     const searchQuery = e.target.search.value.trim();
     history.push(`/city/${searchQuery}`);
   }
-  async function createCitiesList() {
+  // (async function () {
+  //   const results = await provider.search({ query: city });
+  //   // console.log(results);
+
+  // })()
+  async function createCitiesList(city) {
     try {
-      const response = await fetch(
-        `https://nominatim.openstreetmap.org/search/city=Dn?format=json&addressdetails=[0|1]&accept-language=en&limit=50`
+      const response = await fetch(`http://dataservice.accuweather.com/locations/v1/cities/autocomplete/apikey=4jqOySF2dyahzmPXLiLW4wlqhpeVUKX7&q=tel`
+        // `https://nominatim.openstreetmap.org/search/city=${city}?format=json&addressdetails=[0|1]&accept-language=en&limit=50`
         // `https://nominatim.openstreetmap.org/search/Be?format=json&addressdetails=1&limit=1&polygon_svg=1`
       );
       if (response.ok) {
         const citiesList = await response.json();
-        // console.log(citiesList);
+        console.log(citiesList);
       } else console.warn(`Unknown error ===>>> ${response.status}`);
     } catch (error) {
       console.warn(error);
     }
   }
-  createCitiesList()
+  createCitiesList(city)
+  console.log(city);
   return (
     <div>
       <form onSubmit={handleSubmit} className="searchForm">
@@ -30,6 +40,7 @@ export default function Search() {
           required
           placeholder="'Mexico' or 'London,GB'"
           className="searchInput"
+          onChange={(e)=>setCity(e.target.value)}
         />
         <button type="submit" className="searchBtn">
           Search
