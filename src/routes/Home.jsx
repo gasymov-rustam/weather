@@ -1,7 +1,7 @@
 import { getCurrentWeatherByCityId } from "../api/weather";
-import CurrentWeather from "../components/CurrentWeather/CurrentWeather";
 import { useData } from "../hooks/useData";
 import { useEffect } from "react";
+import CurrentWeather from "../components/CurrentWeather/CurrentWeather";
 import Load from "../components/Load/Load";
 
 export default function Home() {
