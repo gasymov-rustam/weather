@@ -6,6 +6,7 @@ const initialState = {
   currentWeather: {},
   citiesWeather: [],
   citiesId: [],
+  foundCityWeather: null
 };
 const DataContext = createContext(initialState);
 export function useData() {
@@ -32,6 +33,9 @@ function reducer(state, { type, payload }) {
     }
     case "LOAD": {
       return { ...state, load: payload };
+    }
+    case "SET_FOUND_CITY_WEATHER": {
+      return { ...state, foundCityWeather: payload };
     }
     case "CURRENT_WEATHER": {
       return { ...state, currentWeather: payload };

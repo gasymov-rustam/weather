@@ -15,6 +15,8 @@ export default function Header() {
           <NavLink exact to={`/city/${citiesWeather.length !== 0 ? citiesWeather[0].name : "Kiev"}`} className="links">
             City
           </NavLink>
+          <NavLink to="/city/London" className="links">City london</NavLink>
+          <NavLink to="/city/Odessa" className="links">City odessa</NavLink>
           <NavLink exact to="/settings" className="links">Settings</NavLink>
           <NavLink to="/blabla" className="links">404</NavLink>
         </nav>

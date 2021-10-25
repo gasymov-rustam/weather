@@ -1,59 +1,65 @@
-import { useEffect } from "react";
-import { useParams } from "react-router";
-import { getCurrentWeatherByCityName, getFullWeatherByCoords } from "../api/weather";
-import CurrentWeather from "../components/CurrentWeather/CurrentWeather";
-import FullWeather from "../components/FullWeather/FullWeather";
-import Load from "../components/Load/Load";
-import { useData } from "../hooks/useData";
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router';
+import { getCurrentWeatherByCityName, getFullWeatherByCoords } from '../api/weather';
+import CurrentWeather from '../components/CurrentWeather/CurrentWeather';
+import FullWeather from '../components/FullWeather/FullWeather';
+import Load from '../components/Load/Load';
+import { useData } from '../hooks/useData';
 
 export default function City() {
-  const [{ load, currentWeather, fullWeather }, dispatch] = useData();
+  const [{ load, foundCityWeather }, dispatch] = useData();
   const { cityName } = useParams();
+  const [cityWeather, setCityWeather] = useState(null);
+
   useEffect(() => {
-    if (cityName) {
+    if (foundCityWeather) {
+      console.log('get city by search');
       (async function () {
-        dispatch({ type: "LOAD", payload: true });
-        const [city, cityError] = await getCurrentWeatherByCityName(cityName);
+        const [city, cityError] = await getFullWeatherByCoords(foundCityWeather.coord);
         if (cityError) {
-          alert("City not found!");
-          dispatch({ type: "LOAD", payload: false });
+          alert('Error get weather by server!');
           return;
         }
         if (city) {
-          dispatch({ type: "LOAD", payload: false });
-          dispatch({ type: "CURRENT_WEATHER", payload: city });
+          const fullCityWeather = { ...foundCityWeather, ...city };
+          console.log(foundCityWeather, city, fullCityWeather);
+          setCityWeather(fullCityWeather);
+          dispatch({type: 'SET_FOUND_CITY_WEATHER', payload: null})
         }
       })();
-    }
-  }, [cityName, dispatch]);
-  useEffect(() => {
-    if (currentWeather.coord) {
+    } else if (!foundCityWeather && cityName) {
+      console.log('get city by city name');
       (async function () {
-        dispatch({ type: "LOAD", payload: true });
-        const [city, cityError] = await getFullWeatherByCoords(currentWeather.coord);
+        const [cityCurrent, cityCurrentError] = await getCurrentWeatherByCityName(cityName);
+        if (cityCurrentError) {
+          alert('City not found!');
+          return;
+        }
+        const [city, cityError] = await getFullWeatherByCoords(cityCurrent.coord);
         if (cityError) {
-          console.log("City not found!");
-          dispatch({ type: "LOAD", payload: false });
+          alert('Error get weather by server!');
           return;
         }
         if (city) {
-          dispatch({ type: "LOAD", payload: false });
-          dispatch({ type: "FULL_WEATHER", payload: city });
+          const fullCityWeather = { ...cityCurrent, ...city };
+          console.log(cityCurrent, city, fullCityWeather);
+          setCityWeather(fullCityWeather);
+          dispatch({type: 'SET_FOUND_CITY_WEATHER', payload: null})
         }
       })();
+    } else {
+      console.warn('Coords and cityName is not defined! Redirect to 404!');
     }
-  }, [currentWeather.coord, dispatch]);
+  }, [cityName]);
+
+
   return (
     <>
       {load && <Load />}
       <div className="cityWrapper">
-        {Object.keys(currentWeather).length > 0 && <CurrentWeather data={currentWeather} />}
-        {Object.keys(fullWeather).length > 0 && <FullWeather data={fullWeather} />}
+        {cityWeather && <CurrentWeather data={cityWeather} />}
+        {cityWeather && <FullWeather data={cityWeather} />}
       </div>
-        {/* https://api.openweathermap.org/data/2.5/onecall?lat={'50.4333'}&lon={'30.5167'}&exclude={part}&appid={'a502141cd6f97ff96bb68d7c77410302'}*/}
-        {/* {https://api.openweathermap.org/data/2.5//weather?q=Kiev&appid=a502141cd6f97ff96bb68d7c77410302} */}
-        {/* {https://api.openweathermap.org/data/2.5/onecall?lat=33.44&lon=-94.04&exclude=hourly,daily&lang=ru&appid=a502141cd6f97ff96bb68d7c77410302} */}
-        {/* {https://api.openweathermap.org/data/2.5//onecall?lat=33.44&lon=-94.04&lang=ru&appid=a502141cd6f97ff96bb68d7c77410302} */}
     </>
   );
 }
