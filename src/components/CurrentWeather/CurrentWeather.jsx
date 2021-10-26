@@ -1,8 +1,19 @@
 import styles from "./CurrentWeather.module.css";
 import { useData } from "../../hooks/useData";
 import { createRouteWind } from "../../utils/utils";
+import { useState } from "react";
+
 export default function CurrentWeather({ data }) {
   const [{ citiesId }, dispatch] = useData();
+  const [favorites, setFavorites] = useState(JSON.parse(window.localStorage.getItem("favorites")));
+  // window.localStorage.setItem("favorites", JSON.stringify(favorites));
+  // function handler(id) {
+  //   const favoriteIdx = favorites.findIndex((item) => item === id);
+  //   favoriteIdx === -1
+  //     ? setFavorites((prev) => [...prev, id])
+  //     : setFavorites((prev) => [...prev].filter((item) => item !== id));
+  // }
+
   return (
     <>
       <div className={styles.wrapper}>

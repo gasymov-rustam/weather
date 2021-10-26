@@ -1,4 +1,5 @@
 import axios from 'axios';
+export let abcd = 0;
 const API_KEY = 'a502141cd6f97ff96bb68d7c77410302';
 
 const api = axios.create({
@@ -6,10 +7,11 @@ const api = axios.create({
   headers: {
     'content-type': 'application/json;charset=utf-8',
   },
+
   params: {
-    appid: API_KEY,
+    appid: API_KEY,     
     units: 'metric',
-    // lang: 'ru',
+    lang: 'ru',
   },
 });
 
