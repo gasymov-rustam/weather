@@ -5,7 +5,7 @@ import CurrentWeather from "../components/CurrentWeather/CurrentWeather";
 import Load from "../components/Load/Load";
 
 export default function Home() {
-  const [{ citiesId, load }, dispatch] = useData();
+  const [{ citiesId, load, settingsParams }, dispatch] = useData();
   const [cities, setCities] = useState([]);
   // const [favorites, setFavorites] = useState([]);
   // useEffect(() => {
@@ -34,7 +34,7 @@ export default function Home() {
     (async function () {
       try {
         setCities([])
-        const response = await Promise.all(citiesId.map((id) => getCurrentWeatherByCityId(id)));
+        const response = await Promise.all(citiesId.map((id) => getCurrentWeatherByCityId(id, settingsParams)));
         response.forEach((item) => {
           const [getCity, getCityError] = item;
           if (!getCityError) setCities((prev) => [...prev, getCity]);

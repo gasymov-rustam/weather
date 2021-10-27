@@ -17,8 +17,8 @@ export default function Settings() {
   const [lang, setLang] = useState(params.lang);
   const [unit, setUnit] = useState(params.units);
  
-  useEffect(()=> dispatch({ type: "CHANGE_SETTINGS", payload: `&lang=${lang.slice(0, 2)}&units=${unit}`}),[])
-  
+  useEffect(()=> dispatch({ type: "CHANGE_SETTINGS", payload: `&lang=${lang.slice(0, 2)}&units=${unit}`}),[lang, unit])
+  window.localStorage.setItem("params", JSON.stringify({ lang: lang, units: unit }))  
   
   function handlRadio(e, item) {
     if (e.target.name === "lang") {
@@ -26,14 +26,7 @@ export default function Settings() {
     } else {
       setUnit(item);
     }
-    
-    // dispatch({ type: "CHANGE_SETTINGS", payload: { lang: lang.slice(0, 2), unit: unit } });
-    dispatch({ type: "CHANGE_SETTINGS", payload: `&lang=${lang.slice(0, 2)}&units=${unit}`});
-
   }
-  window.localStorage.setItem("params", JSON.stringify({ lang: lang, units: unit }));
-  console.log(params);
-  console.log(settingsParams);
   return (
     <>
       {settings.map((setting) => (

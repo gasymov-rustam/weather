@@ -8,7 +8,7 @@ import Load from "../components/Load/Load";
 import { useData } from "../hooks/useData";
 
 export default function City() {
-  const [{ load, foundCityWeather }, dispatch] = useData();
+  const [{ load, foundCityWeather,settingsParams }, dispatch] = useData();
   const { cityName } = useParams();
   const [cityWeather, setCityWeather] = useState(null);
   const [visible, setVisible] = useState(false);
@@ -16,7 +16,7 @@ export default function City() {
     if (foundCityWeather) {
       console.log("get city by search");
       (async function () {
-        const [city, cityError] = await getFullWeatherByCoords(foundCityWeather.coord);
+        const [city, cityError] = await getFullWeatherByCoords(foundCityWeather.coord, settingsParams);
         if (cityError) {
           setVisible(true)
           return;
@@ -30,12 +30,12 @@ export default function City() {
       })();
     } else if (!foundCityWeather && cityName) {
       (async function () {
-        const [cityCurrent, cityCurrentError] = await getCurrentWeatherByCityName(cityName);
+        const [cityCurrent, cityCurrentError] = await getCurrentWeatherByCityName(cityName, settingsParams);
         if (cityCurrentError) {
           setVisible(true)
           return;
         }
-        const [city, cityError] = await getFullWeatherByCoords(cityCurrent.coord);
+        const [city, cityError] = await getFullWeatherByCoords(cityCurrent.coord, settingsParams);
         if (cityError) {
           alert("Error get weather by server!");
           return;
