@@ -7,11 +7,11 @@ import Alert from "../components/ALert/Alert";
 export default function Search() {
   const [visible, setVisible] = useState(false);
   const history = useHistory();
-  const [, dispatch] = useData();
+  const [{settingsParams}, dispatch] = useData();
   async function handleSubmit(e) {
     e.preventDefault();
     const searchQuery = e.target.search.value.trim();
-    const [city, cityError] = await getCurrentWeatherByCityName(searchQuery);
+    const [city, cityError] = await getCurrentWeatherByCityName(searchQuery, settingsParams);
     if (cityError) {
       setVisible(true);
       e.target.search.value = "";

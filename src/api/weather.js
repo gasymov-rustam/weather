@@ -1,7 +1,5 @@
 import axios from 'axios';
-export let abcd = 0;
 const API_KEY = 'a502141cd6f97ff96bb68d7c77410302';
-
 const api = axios.create({
   baseURL: 'https://api.openweathermap.org/data/2.5',
   headers: {
@@ -10,8 +8,8 @@ const api = axios.create({
 
   params: {
     appid: API_KEY,     
-    units: 'metric',
-    lang: 'ru',
+    // units: 'metric',
+    // lang: 'ru',
   },
 });
 
@@ -20,8 +18,11 @@ api.interceptors.response.use(
   (err) => [null, err]
 );
 
-export function getCurrentWeatherByCityName(cityName) {
-  return api.get(`/weather?q=${cityName}`);
+export function getCurrentWeatherByCityName(cityName, settings) {
+  // let str = '';
+  // console.log(settings);
+  // Object.keys(settings).map(key => str+=`&${key}=${settings[key]}`)
+  return api.get(`/weather?q=${cityName}${settings}`);
 }
 export function getCurrentWeatherByCityId(cityId) {
   return api.get(`/weather?id=${cityId}`);

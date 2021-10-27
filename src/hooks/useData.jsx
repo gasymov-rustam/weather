@@ -6,7 +6,8 @@ const initialState = {
   currentWeather: {},
   citiesWeather: [],
   citiesId: [],
-  foundCityWeather: null
+  foundCityWeather: null,
+  settingsParams: `&lang=he&units=metric`
 };
 const DataContext = createContext(initialState);
 export function useData() {
@@ -30,6 +31,10 @@ function reducer(state, { type, payload }) {
   switch (type) {
     case "INIT": {
       return { ...state, citiesId: payload };
+    }
+    case "CHANGE_SETTINGS": {
+      console.log();
+      return { ...state,settingsParams: payload };
     }
     case "LOAD": {
       return { ...state, load: payload };

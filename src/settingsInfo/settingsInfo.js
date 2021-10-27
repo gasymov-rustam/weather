@@ -1,4 +1,4 @@
 export const settingsInfo = {
-  'units': ['metric', 'imperial', 'standart'],
-  'lang': ['en', 'ru', 'he']
-} 
+  units: ["standart", "metric", "imperial"],
+  lang: ["english", "russian", "hebrew"],
+};

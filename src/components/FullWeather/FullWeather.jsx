@@ -1,7 +1,7 @@
 import styles from "./FullWeather.module.css";
 
 export default function FullWeather({ data }) {
-  const times = [0, 4, 8, 12, 16, 20];
+  const times = [4, 8, 12, 16, 20, 24];
   const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
   return (
     <>
@@ -48,17 +48,6 @@ export default function FullWeather({ data }) {
           </div>
         ))}
       </div>
-      {/* {console.log(data)}
-      {console.log(new Date(data.daily[0].dt * 1000).toLocaleDateString())}
-      {console.log(new Date(data.daily[1].dt * 1000).toLocaleDateString())}
-      {console.log(new Date(data.daily[2].dt * 1000).toLocaleDateString())}
-      {console.log(new Date(data.daily[3].dt * 1000).toLocaleDateString())}
-      {console.log(new Date(data.daily[4].dt * 1000).toLocaleDateString())}
-      {console.log(new Date(data.daily[5].dt * 1000).toLocaleDateString())}
-      {console.log(new Date(data.daily[6].dt * 1000).toLocaleDateString())}
-      {console.log(new Date(data.daily[7].dt * 1000).toLocaleDateString())}
-      {console.log(new Date(data.daily[3].dt * 1000).toUTCString())} */}
-      {/* {console.log(new Date(data.daily[8].dt * 1000).toLocaleDateString())} */}
     </>
   );
 }
