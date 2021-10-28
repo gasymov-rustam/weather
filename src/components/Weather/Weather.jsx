@@ -7,10 +7,14 @@ import { useHistory } from "react-router";
 export default function Weather({ data, full, button }) {
   const history = useHistory();
   const [{ citiesId }, dispatch] = useData();
-  const unitTemperatura = JSON.parse(window.localStorage.getItem("params")).units;
   const times = [4, 8, 12, 16, 20, 24];
   const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
   const [visibleFullWeather, setVisibleFullWeather] = useState(false)
+  let unitTemperatura = '';
+  (window.localStorage.getItem("params") ? unitTemperatura = JSON.parse(window.localStorage.getItem("params")).units : unitTemperatura = 'standart')
+  // if (!window.localStorage.getItem("params")){
+  //   const unitTemperatura = JSON.parse(window.localStorage.getItem("params")).units;
+  // }
   // const [favorites, setFavorites] = useState(JSON.parse(window.localStorage.getItem("favorites")));
   // window.localStorage.setItem("favorites", JSON.stringify(favorites));
   // function handler(id) {

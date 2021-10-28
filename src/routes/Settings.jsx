@@ -3,7 +3,7 @@ import { useData } from "../hooks/useData";
 import { settingsInfo } from "../settingsInfo/settingsInfo";
 
 export default function Settings() {
-  const settings =Object.keys(settingsInfo)
+  const settings = Object.keys(settingsInfo);
   const [, dispatch] = useData();
   if (!window.localStorage.getItem("params"))
     window.localStorage.setItem(
@@ -13,12 +13,16 @@ export default function Settings() {
         units: "standart",
       })
     );
+
   let params = JSON.parse(window.localStorage.getItem("params"));
   const [lang, setLang] = useState(params.lang);
   const [unit, setUnit] = useState(params.units);
-  useEffect(()=> dispatch({ type: "CHANGE_SETTINGS", payload: `&lang=${lang.slice(0, 2)}&units=${unit}`}),[lang, unit, dispatch])
-  window.localStorage.setItem("params", JSON.stringify({ lang: lang, units: unit }))  
-  
+  useEffect(
+    () => dispatch({ type: "CHANGE_SETTINGS", payload: `&lang=${lang.slice(0, 2)}&units=${unit}` }),
+    [lang, unit, dispatch]
+  );
+  window.localStorage.setItem("params", JSON.stringify({ lang: lang, units: unit }));
+
   function handlRadio(e, item) {
     if (e.target.name === "lang") {
       setLang(item);
@@ -141,16 +145,16 @@ export default function Settings() {
       } */
 }
 // console.log(settingsParams);
-  // let par = settingsParams;
-  // par = par.split("");
-  // let params = settingsParams.toString().split("&").filter(word => !!word).map(item => item.split('=')).map(item => item[1]);
-  // console.log(a.map(item=> console.log(item[1])));
-  // console.log(par);
-  // let str = '';
-  // console.log(settings);
-  // let keys = Object.keys(settings);
+// let par = settingsParams;
+// par = par.split("");
+// let params = settingsParams.toString().split("&").filter(word => !!word).map(item => item.split('=')).map(item => item[1]);
+// console.log(a.map(item=> console.log(item[1])));
+// console.log(par);
+// let str = '';
+// console.log(settings);
+// let keys = Object.keys(settings);
 
-  // keyss.map(key => str+=`&${key}=${settingsParams[key]}`)
-  // console.log(settingsParams);
+// keyss.map(key => str+=`&${key}=${settingsParams[key]}`)
+// console.log(settingsParams);
 
-  // console.log(a(settingsParams));
+// console.log(a(settingsParams));

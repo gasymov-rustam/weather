@@ -14,7 +14,15 @@ export function DataProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState);
   const memoValue = useMemo(() => [state, dispatch], [state]);
   useEffect(() => {
-    if (!window.localStorage.getItem("citiesId"))
+    if (!window.localStorage.getItem("params")) 
+      window.localStorage.setItem(
+        "params",
+        JSON.stringify({
+          lang: "hebrew",
+          units: "standart",
+        })
+      );
+      if (!window.localStorage.getItem("citiesId"))
       window.localStorage.setItem("citiesId", JSON.stringify([]));
     dispatch({
       type: "INIT",
@@ -30,7 +38,6 @@ function reducer(state, { type, payload }) {
       return { ...state, citiesId: payload };
     }
     case "CHANGE_SETTINGS": {
-      console.log();
       return { ...state, settingsParams: payload };
     }
     case "LOAD": {
