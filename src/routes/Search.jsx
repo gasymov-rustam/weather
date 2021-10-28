@@ -1,17 +1,23 @@
 import { useHistory } from "react-router";
 import { getCurrentWeatherByCityName } from "../api/weather";
 import { useData } from "../hooks/useData";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Alert from "../components/ALert/Alert";
 
 export default function Search() {
   const [visible, setVisible] = useState(false);
   const history = useHistory();
-  const [{settingsParams}, dispatch] = useData();
+  const [{settings}, dispatch] = useData();
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition((pos) => {
+      console.log(pos);
+    })
+  }, [])
+
   async function handleSubmit(e) {
     e.preventDefault();
     const searchQuery = e.target.search.value.trim();
-    const [city, cityError] = await getCurrentWeatherByCityName(searchQuery, settingsParams);
+    const [city, cityError] = await getCurrentWeatherByCityName({q:searchQuery, ...settings});
     if (cityError) {
       setVisible(true);
       e.target.search.value = "";

@@ -1,28 +1,15 @@
-import styles from "./Weather.module.css";
-import { useData } from "../../hooks/useData";
-import { createRouteWind } from "../../utils/utils";
-import { useState } from "react";
-import { useHistory } from "react-router";
+import styles from './Weather.module.css';
+import { useData } from '../../hooks/useData';
+import { createRouteWind, getTemperatureSymbol } from '../../utils/utils';
+import { useState } from 'react';
+import { useHistory } from 'react-router';
 
 export default function Weather({ data, full, button, changeVisible }) {
   const history = useHistory();
-  const [{ citiesId }, dispatch] = useData();
+  const [{ citiesId, settings }, dispatch] = useData();
   const times = [4, 8, 12, 16, 20, 24];
-  const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-  let unitTemperatura = '';
-  const [open, setOpen] = useState(false);
-  (window.localStorage.getItem("params") ? unitTemperatura = JSON.parse(window.localStorage.getItem("params")).units : unitTemperatura = 'standart')
-  // if (!window.localStorage.getItem("params")){
-  //   const unitTemperatura = JSON.parse(window.localStorage.getItem("params")).units;
-  // }
-  // const [favorites, setFavorites] = useState(JSON.parse(window.localStorage.getItem("favorites")));
-  // window.localStorage.setItem("favorites", JSON.stringify(favorites));
-  // function handler(id) {
-  //   const favoriteIdx = favorites.findIndex((item) => item === id);
-  //   favoriteIdx === -1
-  //     ? setFavorites((prev) => [...prev, id])
-  //     : setFavorites((prev) => [...prev].filter((item) => item !== id));
-  // }
+  const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+  
   return (
     <>
       <div className={styles.wrapper}>
@@ -36,7 +23,7 @@ export default function Weather({ data, full, button, changeVisible }) {
             className={styles.favoriteCheckbox}
             checked={citiesId.includes(data.id)}
             hidden
-            onChange={() => dispatch({ type: "CHANGE_CITY", payload: data.id })}
+            onChange={() => dispatch({ type: 'CHANGE_CITY', payload: data.id })}
           />
           <span>&#127892;</span>
         </label>
@@ -76,36 +63,18 @@ export default function Weather({ data, full, button, changeVisible }) {
           <div>
             <p className={styles.generalData}>
               <span>feels</span>
-              {data.main["feels_like"].toFixed(1)}
-              {unitTemperatura === "standart" ? (
-                <span>&#x2109;</span>
-              ) : unitTemperatura === "metric" ? (
-                <span>&#8451;</span>
-              ) : (
-                <span>&#xb0;</span>
-              )}
+              {data.main['feels_like'].toFixed(1)}
+              {getTemperatureSymbol(settings.units)}
             </p>
             <p className={styles.generalData}>
               <span>min. temperature</span>
-              {data.main["temp_min"].toFixed(1)}
-              {unitTemperatura === "standart" ? (
-                <span>&#x2109;</span>
-              ) : unitTemperatura === "metric" ? (
-                <span>&#8451;</span>
-              ) : (
-                <span>&#xb0;</span>
-              )}
+              {data.main['temp_min'].toFixed(1)}
+              {getTemperatureSymbol(settings.units)}
             </p>
             <p className={styles.generalData}>
               <span>max. temperature</span>
-              {data.main["temp_max"].toFixed(1)}
-              {unitTemperatura === "standart" ? (
-                <span>&#x2109;</span>
-              ) : unitTemperatura === "metric" ? (
-                <span>&#8451;</span>
-              ) : (
-                <span>&#xb0;</span>
-              )}
+              {data.main['temp_max'].toFixed(1)}
+              {getTemperatureSymbol(settings.units)}
             </p>
           </div>
           <div>
@@ -130,15 +99,9 @@ export default function Weather({ data, full, button, changeVisible }) {
           </div>
 
           <div className={styles.temp}>
-            <span>{data.main.temp.toFixed(1).split(".")[0]},</span>
-            <span>{data.main.temp.toFixed(1).split(".")[1]}</span>
-            {unitTemperatura === "standart" ? (
-              <span>&#x2109;</span>
-            ) : unitTemperatura === "metric" ? (
-              <span>&#8451;</span>
-            ) : (
-              <span>&#xb0;</span>
-            )}
+            <span>{data.main.temp.toFixed(1).split('.')[0]},</span>
+            <span>{data.main.temp.toFixed(1).split('.')[1]}</span>
+            {getTemperatureSymbol(settings.units)}
           </div>
           <div className={styles.sunset}>
             <span>{`${new Date(data.sys.sunset * 1000).toLocaleTimeString()}`}</span>
@@ -161,11 +124,10 @@ export default function Weather({ data, full, button, changeVisible }) {
                   />
                   <p>{data.hourly[time].weather[0].description}</p>
                   <div className={styles.boxTemp}>
-                    {data.hourly[time].temp.toFixed(1)} <span>&#8451;</span>
+                    {data.hourly[time].temp.toFixed(1)}{' '}
+                    {getTemperatureSymbol(settings.units)}
                   </div>
-                  <time>
-                    {new Date(data.hourly[time].dt * 1000).toLocaleTimeString().slice(0, 5)} hours
-                  </time>
+                  <time>{new Date(data.hourly[time].dt * 1000).toLocaleTimeString().slice(0, 5)} hours</time>
                 </div>
               ))}
             </div>
@@ -185,7 +147,8 @@ export default function Weather({ data, full, button, changeVisible }) {
 
                   <p>{data.daily[idx].weather[0].description}</p>
                   <div className={styles.boxTemp}>
-                    {data.daily[idx].temp.day.toFixed(1)} <span>&#8451;</span>
+                    {data.daily[idx].temp.day.toFixed(1)}{' '}
+                    {getTemperatureSymbol(settings.units)}
                   </div>
                 </div>
               ))}
@@ -193,10 +156,7 @@ export default function Weather({ data, full, button, changeVisible }) {
           </>
         )}
         {button && (
-          <button
-            className={styles.fullWeather}
-            onClick={() => history.push(`/city/${data.name},${data.sys.country}`)}
-          >
+          <button className={styles.fullWeather} onClick={() => history.push(`/city/${data.name},${data.sys.country}`)}>
             <span>more</span> ...
           </button>
         )}

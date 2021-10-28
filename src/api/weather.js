@@ -18,18 +18,19 @@ api.interceptors.response.use(
   (err) => [null, err]
 );
 
-export function getCurrentWeatherByCityName(cityName, settings) {
+export function getCurrentWeatherByCityName(params) {
   // let str = '';
   // console.log(settings);
   // Object.keys(settings).map(key => str+=`&${key}=${settings[key]}`)
-  return api.get(`/weather?q=${cityName}${settings}`);
+  console.log(params);
+  return api.get(`/weather`, {params});
 }
-export function getCurrentWeatherByCityId(cityId, settings) {
-  return api.get(`/weather?id=${cityId}${settings}`);
+export function getCurrentWeatherByCityId(params) {
+  return api.get(`/weather`, {params});
 }
-export function getCurrentWeatherByCoords(coords, settings) {
-  return api.get(`/weather?lat=${coords.lat}&lon=${coords.lon}${settings}`);
+export function getCurrentWeatherByCoords(params) {
+  return api.get(`/weather`, {params});
 }
-export function getFullWeatherByCoords(coords, settings) {
-  return api.get(`/onecall?lat=${coords.lat}&lon=${coords.lon}${settings}`);
+export function getFullWeatherByCoords(params) {
+  return api.get(`/onecall`, {params});
 }

@@ -1,54 +1,35 @@
-import { useState, useEffect } from "react";
 import { useData } from "../hooks/useData";
-import { settingsInfo } from "../settingsInfo/settingsInfo";
+
 
 export default function Settings() {
-  const settings = Object.keys(settingsInfo);
-  const [, dispatch] = useData();
-  if (!window.localStorage.getItem("params"))
-    window.localStorage.setItem(
-      "params",
-      JSON.stringify({
-        lang: "english",
-        units: "standart",
-      })
-    );
+  const settingsOptions = {
+    units: ["standart", "metric", "imperial"],
+    lang: [{long: 'English', code: 'EN'},{long: 'Russian', code: 'RU'},{long: 'Hebrew', code: 'HE'}],
+  }
+  const [{settings}, dispatch] = useData();
 
-  let params = JSON.parse(window.localStorage.getItem("params"));
-  const [lang, setLang] = useState(params.lang);
-  const [unit, setUnit] = useState(params.units);
-  useEffect(
-    () => dispatch({ type: "CHANGE_SETTINGS", payload: `&lang=${lang.slice(0, 2)}&units=${unit}` }),
-    [lang, unit, dispatch]
-  );
-  window.localStorage.setItem("params", JSON.stringify({ lang: lang, units: unit }));
-
-  function handlRadio(e, item) {
-    if (e.target.name === "lang") {
-      setLang(item);
-    } else {
-      setUnit(item);
-    }
+  function handleRadio(key, value) {
+    console.log(key, value);
+    dispatch({ type: "CHANGE_SETTINGS", payload: {[key]: value} })
   }
   return (
     <>
-      {settings.map((setting) => (
+      {Object.keys(settingsOptions).map((setting) => (
         <fieldset key={setting}>
           <legend>
             {setting}
-            <form>
-              {settingsInfo[setting].map((item) => (
-                <label key={item}>
-                  <input
-                    type="radio"
-                    name={setting}
-                    checked={item === lang || item === unit}
-                    onChange={(e) => handlRadio(e, item)}
-                  />
-                  <span>{item}</span>
-                </label>
-              ))}
-            </form>
+              {settingsOptions[setting].map((item, i) => {
+                return <label key={i}>
+                <input
+                  type="radio"
+                  name={setting}
+                  value={item?.code || item}
+                  checked={settings[setting] === (item?.code || item)}
+                  onChange={() => handleRadio(setting, item?.code || item)}
+                />
+                <span>{item?.long || item}</span>
+              </label>
+              })}
           </legend>
         </fieldset>
       ))}

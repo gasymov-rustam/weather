@@ -7,7 +7,7 @@ import Weather from "../components/Weather/Weather";
 import { useData } from "../hooks/useData";
 
 export default function City() {
-  const [{ load, foundCityWeather, settingsParams }, dispatch] = useData();
+  const [{ load, foundCityWeather, settings }, dispatch] = useData();
   const [cityWeather, setCityWeather] = useState(null);
   const [visible, setVisible] = useState(false);
   const { cityName } = useParams();
@@ -15,10 +15,10 @@ export default function City() {
     if (foundCityWeather) {
       console.log("get city by search");
       (async function () {
-        const [city, cityError] = await getFullWeatherByCoords(
-          foundCityWeather.coord,
-          settingsParams
-        );
+        const [city, cityError] = await getFullWeatherByCoords({
+          ...foundCityWeather.coord,
+          ...settings
+        });
         if (cityError) {
           setVisible(true);
           return;
@@ -32,15 +32,15 @@ export default function City() {
       })();
     } else if (!foundCityWeather && cityName) {
       (async function () {
-        const [cityCurrent, cityCurrentError] = await getCurrentWeatherByCityName(
-          cityName,
-          settingsParams
-        );
+        const [cityCurrent, cityCurrentError] = await getCurrentWeatherByCityName({
+          q: cityName,
+          ...settings
+        });
         if (cityCurrentError) {
           setVisible(true);
           return;
         }
-        const [city, cityError] = await getFullWeatherByCoords(cityCurrent.coord, settingsParams);
+        const [city, cityError] = await getFullWeatherByCoords({...cityCurrent.coord, ...settings});
         if (cityError) {
           alert("Error get weather by server!");
           return;
@@ -61,7 +61,7 @@ export default function City() {
       {visible && <Alert visibility={setVisible} />}
       {load && <Load />}
       <div className="cityWrapper">
-        {cityWeather && <Weather data={cityWeather} full={true} button={false} />}
+        {cityWeather && <Weather data={cityWeather} full />}
       </div>
     </>
   );

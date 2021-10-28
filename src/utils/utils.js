@@ -62,3 +62,12 @@ export function createRouteWind(number) {
     );
   }
 }
+export function getTemperatureSymbol(units) {
+  return units === 'standart' ? (
+    <span>&#x2109;</span>
+  ) : units === 'metric' ? (
+    <span>&#8451;</span>
+  ) : (
+    <span>&#xb0;</span>
+  )
+}
