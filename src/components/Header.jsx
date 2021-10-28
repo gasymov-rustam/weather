@@ -1,9 +1,7 @@
 import { NavLink } from "react-router-dom";
-import { useData } from "../hooks/useData";
 import "./Header.css";
 
 export default function Header() {
-  const [{ citiesWeather }] = useData();
   return (
     <header className="header">
       <div className="container">
@@ -12,7 +10,7 @@ export default function Header() {
           <NavLink exact to="/search" className="links">
             Search
           </NavLink>
-          <NavLink exact to={`/city/${citiesWeather.length !== 0 ? citiesWeather[0].name : "Kiev"}`} className="links">
+          <NavLink exact to={`/city/Kyiv`} className="links">
             City
           </NavLink>
           <NavLink to="/city/London" className="links">City london</NavLink>

@@ -1,24 +1,26 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useParams} from "react-router";
 import { getCurrentWeatherByCityName, getFullWeatherByCoords } from "../api/weather";
 import Alert from "../components/ALert/Alert";
-import CurrentWeather from "../components/CurrentWeather/CurrentWeather";
-import FullWeather from "../components/FullWeather/FullWeather";
 import Load from "../components/Load/Load";
+import Weather from "../components/Weather/Weather";
 import { useData } from "../hooks/useData";
 
 export default function City() {
-  const [{ load, foundCityWeather,settingsParams }, dispatch] = useData();
-  const { cityName } = useParams();
+  const [{ load, foundCityWeather, settingsParams }, dispatch] = useData();
   const [cityWeather, setCityWeather] = useState(null);
   const [visible, setVisible] = useState(false);
+  const { cityName } = useParams();
   useEffect(() => {
     if (foundCityWeather) {
       console.log("get city by search");
       (async function () {
-        const [city, cityError] = await getFullWeatherByCoords(foundCityWeather.coord, settingsParams);
+        const [city, cityError] = await getFullWeatherByCoords(
+          foundCityWeather.coord,
+          settingsParams
+        );
         if (cityError) {
-          setVisible(true)
+          setVisible(true);
           return;
         }
         if (city) {
@@ -30,9 +32,12 @@ export default function City() {
       })();
     } else if (!foundCityWeather && cityName) {
       (async function () {
-        const [cityCurrent, cityCurrentError] = await getCurrentWeatherByCityName(cityName, settingsParams);
+        const [cityCurrent, cityCurrentError] = await getCurrentWeatherByCityName(
+          cityName,
+          settingsParams
+        );
         if (cityCurrentError) {
-          setVisible(true)
+          setVisible(true);
           return;
         }
         const [city, cityError] = await getFullWeatherByCoords(cityCurrent.coord, settingsParams);
@@ -56,8 +61,7 @@ export default function City() {
       {visible && <Alert visibility={setVisible} />}
       {load && <Load />}
       <div className="cityWrapper">
-        {cityWeather && <CurrentWeather data={cityWeather} />}
-        {cityWeather && <FullWeather data={cityWeather} />}
+        {cityWeather && <Weather data={cityWeather} full={true} button={false} />}
       </div>
     </>
   );

@@ -4,20 +4,19 @@ import { settingsInfo } from "../settingsInfo/settingsInfo";
 
 export default function Settings() {
   const settings =Object.keys(settingsInfo)
-  const [{settingsParams}, dispatch] = useData();
+  const [, dispatch] = useData();
   if (!window.localStorage.getItem("params"))
     window.localStorage.setItem(
       "params",
       JSON.stringify({
-        lang: "en",
+        lang: "english",
         units: "standart",
       })
     );
   let params = JSON.parse(window.localStorage.getItem("params"));
   const [lang, setLang] = useState(params.lang);
   const [unit, setUnit] = useState(params.units);
- 
-  useEffect(()=> dispatch({ type: "CHANGE_SETTINGS", payload: `&lang=${lang.slice(0, 2)}&units=${unit}`}),[lang, unit])
+  useEffect(()=> dispatch({ type: "CHANGE_SETTINGS", payload: `&lang=${lang.slice(0, 2)}&units=${unit}`}),[lang, unit, dispatch])
   window.localStorage.setItem("params", JSON.stringify({ lang: lang, units: unit }))  
   
   function handlRadio(e, item) {

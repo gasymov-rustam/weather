@@ -2,12 +2,9 @@ import { useMemo, useContext, useEffect, useReducer, createContext } from "react
 
 const initialState = {
   load: false,
-  fullWeather: {},
-  currentWeather: {},
-  citiesWeather: [],
   citiesId: [],
   foundCityWeather: null,
-  settingsParams: `&lang=he&units=metric`
+  settingsParams: ``,
 };
 const DataContext = createContext(initialState);
 export function useData() {
@@ -34,22 +31,13 @@ function reducer(state, { type, payload }) {
     }
     case "CHANGE_SETTINGS": {
       console.log();
-      return { ...state,settingsParams: payload };
+      return { ...state, settingsParams: payload };
     }
     case "LOAD": {
       return { ...state, load: payload };
     }
     case "SET_FOUND_CITY_WEATHER": {
       return { ...state, foundCityWeather: payload };
-    }
-    case "CURRENT_WEATHER": {
-      return { ...state, currentWeather: payload };
-    }
-    case "CURRENT_WEATHER_CITIES": {
-      return { ...state, citiesWeather: payload };
-    }
-    case "FULL_WEATHER": {
-      return { ...state, fullWeather: payload };
     }
     case "CHANGE_CITY": {
       const { citiesId } = state;
