@@ -8,6 +8,7 @@ export default function Home() {
   const [{ citiesId, load, settingsParams }, dispatch] = useData();
   const [cities, setCities] = useState([]);
   const [fullCities, setFullCities] = useState([]);
+  const [fullVisibility, setFullVisibility] = useState(false);
   useEffect(() => {
     if (citiesId) {
       (async function () {
@@ -48,10 +49,11 @@ export default function Home() {
     <div>
       {load && <Load />}
       {fullCities.length !== 0 ? (
-        fullCities.map((item) => <Weather key={item.id} data={item} full={false} button={true} />)
+        fullCities.map((item) => <Weather key={item.id} data={item} full={false} button={true} changeVisible={setFullVisibility}/>)
       ) : (
         <h2 className="homeTitle">Not found favorites cities</h2>
       )}
+      {console.log(fullVisibility)}
     </div>
   );
 }

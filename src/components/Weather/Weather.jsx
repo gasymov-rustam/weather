@@ -4,13 +4,13 @@ import { createRouteWind } from "../../utils/utils";
 import { useState } from "react";
 import { useHistory } from "react-router";
 
-export default function Weather({ data, full, button }) {
+export default function Weather({ data, full, button, changeVisible }) {
   const history = useHistory();
   const [{ citiesId }, dispatch] = useData();
   const times = [4, 8, 12, 16, 20, 24];
   const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-  const [visibleFullWeather, setVisibleFullWeather] = useState(false)
   let unitTemperatura = '';
+  const [open, setOpen] = useState(false);
   (window.localStorage.getItem("params") ? unitTemperatura = JSON.parse(window.localStorage.getItem("params")).units : unitTemperatura = 'standart')
   // if (!window.localStorage.getItem("params")){
   //   const unitTemperatura = JSON.parse(window.localStorage.getItem("params")).units;
@@ -23,7 +23,6 @@ export default function Weather({ data, full, button }) {
   //     ? setFavorites((prev) => [...prev, id])
   //     : setFavorites((prev) => [...prev].filter((item) => item !== id));
   // }
- 
   return (
     <>
       <div className={styles.wrapper}>
@@ -201,6 +200,14 @@ export default function Weather({ data, full, button }) {
             <span>more</span> ...
           </button>
         )}
+        {/* {button && (
+          <button
+            className={styles.fullWeather}
+            onClick={() => changeVisible(setOpen(!open))}
+          >
+            <span>more</span> ...
+          </button>
+        )} */}
       </div>
     </>
   );
