@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams} from "react-router";
+import { useParams } from "react-router";
 import { getCurrentWeatherByCityName, getFullWeatherByCoords } from "../api/weather";
 import Alert from "../components/ALert/Alert";
 import Load from "../components/Load/Load";
@@ -12,37 +12,43 @@ export default function City() {
   const [visible, setVisible] = useState(false);
   const { cityName } = useParams();
   useEffect(() => {
+    dispatch({ type: "LOAD", payload: true });
     if (foundCityWeather) {
-      console.log("get city by search");
       (async function () {
         const [city, cityError] = await getFullWeatherByCoords({
           ...foundCityWeather.coord,
-          ...settings
+          ...settings,
         });
         if (cityError) {
           setVisible(true);
+          dispatch({ type: "LOAD", payload: false });
           return;
         }
         if (city) {
           const fullCityWeather = { ...foundCityWeather, ...city };
-          console.log(foundCityWeather, city, fullCityWeather);
           setCityWeather(fullCityWeather);
           dispatch({ type: "SET_FOUND_CITY_WEATHER", payload: null });
         }
+        dispatch({ type: "LOAD", payload: false });
       })();
     } else if (!foundCityWeather && cityName) {
       (async function () {
         const [cityCurrent, cityCurrentError] = await getCurrentWeatherByCityName({
           q: cityName,
-          ...settings
+          ...settings,
         });
         if (cityCurrentError) {
           setVisible(true);
+          dispatch({ type: "LOAD", payload: false });
           return;
         }
-        const [city, cityError] = await getFullWeatherByCoords({...cityCurrent.coord, ...settings});
+        const [city, cityError] = await getFullWeatherByCoords({
+          ...cityCurrent.coord,
+          ...settings,
+        });
         if (cityError) {
-          alert("Error get weather by server!");
+          setVisible(true);
+          dispatch({ type: "LOAD", payload: false });
           return;
         }
         if (city) {
@@ -50,8 +56,10 @@ export default function City() {
           setCityWeather(fullCityWeather);
           dispatch({ type: "SET_FOUND_CITY_WEATHER", payload: null });
         }
+        dispatch({ type: "LOAD", payload: false });
       })();
     } else {
+      dispatch({ type: "LOAD", payload: false });
       console.warn("Coords and cityName is not defined! Redirect to 404!");
     }
   }, [cityName]);
@@ -60,9 +68,7 @@ export default function City() {
     <>
       {visible && <Alert visibility={setVisible} />}
       {load && <Load />}
-      <div className="cityWrapper">
-        {cityWeather && <Weather data={cityWeather} full />}
-      </div>
+      <div className="cityWrapper">{cityWeather && <Weather data={cityWeather} full />}</div>
     </>
   );
 }

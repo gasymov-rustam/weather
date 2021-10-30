@@ -9,6 +9,7 @@ export default function Home() {
   const [cities, setCities] = useState([]);
 
   useEffect(() => {
+    dispatch({type: "LOAD", payload: true})
     if (citiesId.length > 0) {
       (async function () {
         const response = await Promise.all(citiesId.map((id) => getCurrentWeatherByCityId({id, ...settings})));
@@ -17,6 +18,7 @@ export default function Home() {
           if (!cityWeatherError) return cityWeather;
         }).filter(Boolean);
         setCities(citiesWeather);
+      dispatch({type: "LOAD", payload: false})
       })();
     }
   }, [citiesId, dispatch]);

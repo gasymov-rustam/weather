@@ -105,7 +105,7 @@
 }
 
 /* ---------------------------------------------------------------------- */
-.hourlyWrapper, .dailyWrapper {
+.hourlyWrapper {
   display: flex;
   gap: 10px;
   align-items: flex-start;
@@ -116,28 +116,15 @@
 .box{
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   flex-wrap: wrap;
   align-items: center;
   font-size: 14px;
 }
 
-.box > p {
-  text-align: center;
-}
-
-.boxTemp > span{
-  margin-left: 5px;
-}
-
 .title {
   text-align: center;
   text-transform: uppercase;
-}
-
-.hourlyWrapper {
-  display: flex;
-  font-size: 12px;
 }
 
 .icon {
@@ -162,3 +149,4 @@
 .fullWeather> span:hover {
   text-decoration: underline;
 }
+
