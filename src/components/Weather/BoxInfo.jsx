@@ -11,7 +11,7 @@ function BoxInfo({ data, idx, array }) {
         height="50"
         loading="lazy"
         alt="didn`t find"
-        className={styles.icon}
+        className={styles.iconBox}
       />
       <h4>{array[new Date(data.daily[idx].dt * 1000).getDay()]}</h4>
       <p>{data.daily[idx].weather[0].description}</p>

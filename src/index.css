@@ -159,4 +159,6 @@ img{
   min-height: 100vh;
 }
 
-
+body {
+  background: #207E9B;
+}

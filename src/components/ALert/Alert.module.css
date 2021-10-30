@@ -6,6 +6,7 @@
   left: 0;
   top: 0;
   z-index: 999;
+  color: #fff;
 }
 
 .description {
@@ -14,7 +15,7 @@
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  background: white;
+  background: #207E9B;
   padding: 32px;
   display: flex;
   flex-direction: column;
@@ -29,10 +30,12 @@
   cursor: pointer;
   padding: 8px 16px;
   border-radius: 10px;
-  background: lightgray;
+  background-color:#0A7497;
   align-self: flex-end;
+  color: #fff;
 }
 
 .description > button:hover{
   background: rgb(64, 179, 218);
+  text-decoration: underline;
 }

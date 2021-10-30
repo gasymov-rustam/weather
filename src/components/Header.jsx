@@ -10,13 +10,13 @@ export default function Header() {
           <NavLink exact to="/search" className="links">
             Search
           </NavLink>
-          <NavLink exact to={`/city/Kyiv`} className="links">
+          {/* <NavLink exact to={`/city/Kyiv`} className="links">
             City
           </NavLink>
           <NavLink to="/city/London" className="links">City london</NavLink>
-          <NavLink to="/city/Odessa" className="links">City odessa</NavLink>
+          <NavLink to="/city/Odessa" className="links">City odessa</NavLink> */}
           <NavLink exact to="/settings" className="links">Settings</NavLink>
-          <NavLink to="/blabla" className="links">404</NavLink>
+          {/* <NavLink to="/blabla" className="links">404</NavLink> */}
         </nav>
       </div>
     </header>

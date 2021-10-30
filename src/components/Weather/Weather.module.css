@@ -3,7 +3,6 @@
   padding: 8px 16px;
   color: #fff;
   position: relative;
-  border-radius: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -67,11 +66,12 @@
   font-size: 0.7em;
 }
 
-.temp > span:last-child{
+.temp > span:last-child {
   margin-left: 30px;
 }
 
-.favorite, .update{
+.favorite,
+.update {
   font-size: 2em;
   position: absolute;
   top: 1%;
@@ -85,12 +85,12 @@
 }
 
 .update {
-  font-size: .8em;
+  font-size: 0.8em;
   left: 2%;
   top: 2.5%;
 }
 
-.favorite{
+.favorite {
   top: 0%;
 }
 
@@ -111,9 +111,10 @@
   align-items: flex-start;
   justify-content: center;
   padding: 8px 16px;
+  width: 100%;
 }
 
-.box{
+.box {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -122,31 +123,23 @@
   font-size: 14px;
 }
 
+.box > p {
+  text-align: center;
+}
+
 .title {
   text-align: center;
   text-transform: uppercase;
 }
 
-.icon {
-  width: 20%;
-  height: auto;
-}
-
-.dailyTitle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .fullWeather {
   align-self: flex-end;
   color: white;
-  padding: 4px 8px; 
+  padding: 4px 8px;
   cursor: pointer;
-  transition: .5s; 
-} 
-
-.fullWeather> span:hover {
-  text-decoration: underline;
+  transition: 0.5s;
 }
 
+.fullWeather > span:hover {
+  text-decoration: underline;
+}

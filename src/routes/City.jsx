@@ -62,13 +62,13 @@ export default function City() {
       dispatch({ type: "LOAD", payload: false });
       console.warn("Coords and cityName is not defined! Redirect to 404!");
     }
-  }, [cityName, dispatch,settings, foundCityWeather]);
+  }, [cityName, dispatch, settings, foundCityWeather]);
 
   return (
-    <>
+    <div className="cityWrapper">
       {visible && <Alert visibility={setVisible} />}
       {load && <Load />}
-      <div className="cityWrapper">{cityWeather && <Weather data={cityWeather} full />}</div>
-    </>
+      {cityWeather && <Weather data={cityWeather} full />}
+    </div>
   );
 }

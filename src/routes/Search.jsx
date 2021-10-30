@@ -14,7 +14,6 @@ export default function Search() {
     setNoCoords(false);
     navigator.geolocation.getCurrentPosition(
       async (pos) => {
-        // console.log(pos);
         const [getWeatherPos, getWeatherPosError] = await getCurrentWeatherByCoords({
           lat: pos.coords.latitude,
           lon: pos.coords.longitude,
@@ -25,7 +24,7 @@ export default function Search() {
           return;
         }
         if (getWeatherPos) {
-          // history.push(`/city/${getWeatherPos.name},${getWeatherPos.sys.country}`)
+          history.push(`/city/${getWeatherPos.name},${getWeatherPos.sys.country}`)
         }
       },
       (error) => {
@@ -52,10 +51,11 @@ export default function Search() {
       history.push(`/city/${city.name},${city.sys.country}`);
     }
   }
+  console.log(window.navigator);
+  console.log(typeof window.navigator.language.split("-")[0]);
   return (
     <div className="formWrapper">
       {visible && <Alert visibility={setVisible} coords={nocoords} setCoords={setNoCoords}/>}
-      {/* {visible && <Alert visibility={setVisible} coords={nocoords} />} */}
       <form onSubmit={handleSubmit} className="searchForm">
         <input
           type="search"
