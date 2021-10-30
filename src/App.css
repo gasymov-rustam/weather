@@ -8,13 +8,14 @@
   gap: 15px;
 }
 
-.container > div {
+.favoritesWrapper {
   display: flex;
   flex-direction: column;
   gap: 15px;
 }
 .app {
   flex: 1;
+
 }
 
 .homeTitle {
@@ -28,9 +29,15 @@
   display: flex;
   justify-content: center;
   gap: 20px;
-  padding: 16px 0;
-  margin-top: 50px;
 }
+
+.formWrapper {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 30px;
+}
+
 
 .searchInput {
   padding: 4px 8px;

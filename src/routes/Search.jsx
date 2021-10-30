@@ -1,23 +1,47 @@
 import { useHistory } from "react-router";
-import { getCurrentWeatherByCityName } from "../api/weather";
+import { getCurrentWeatherByCityName, getCurrentWeatherByCoords } from "../api/weather";
 import { useData } from "../hooks/useData";
-import { useState, useEffect } from "react";
+import { useState} from "react";
 import Alert from "../components/ALert/Alert";
 
 export default function Search() {
   const [visible, setVisible] = useState(false);
+  const [nocoords, setNoCoords] = useState(false);
   const history = useHistory();
-  const [{settings}, dispatch] = useData();
-  useEffect(() => {
-    navigator.geolocation.getCurrentPosition((pos) => {
-      console.log(pos);
-    })
-  }, [])
+  const [{ settings }, dispatch] = useData();
+
+  async function handlerClick() {
+    setNoCoords(false);
+    navigator.geolocation.getCurrentPosition(
+      async (pos) => {
+        // console.log(pos);
+        const [getWeatherPos, getWeatherPosError] = await getCurrentWeatherByCoords({
+          lat: pos.coords.latitude,
+          lon: pos.coords.longitude,
+          ...settings,
+        });
+        if (getWeatherPosError) {
+          setVisible(true);
+          return;
+        }
+        if (getWeatherPos) {
+          // history.push(`/city/${getWeatherPos.name},${getWeatherPos.sys.country}`)
+        }
+      },
+      (error) => {
+        if (error){
+          setVisible(true);
+          setNoCoords(true);
+          return;
+        }
+      }
+    );
+  }
 
   async function handleSubmit(e) {
     e.preventDefault();
     const searchQuery = e.target.search.value.trim();
-    const [city, cityError] = await getCurrentWeatherByCityName({q:searchQuery, ...settings});
+    const [city, cityError] = await getCurrentWeatherByCityName({ q: searchQuery, ...settings });
     if (cityError) {
       setVisible(true);
       e.target.search.value = "";
@@ -29,8 +53,9 @@ export default function Search() {
     }
   }
   return (
-    <div>
-      {visible && <Alert visibility={setVisible} />}
+    <div className="formWrapper">
+      {visible && <Alert visibility={setVisible} coords={nocoords} setCoords={setNoCoords}/>}
+      {/* {visible && <Alert visibility={setVisible} coords={nocoords} />} */}
       <form onSubmit={handleSubmit} className="searchForm">
         <input
           type="search"
@@ -43,6 +68,9 @@ export default function Search() {
           Search
         </button>
       </form>
+      <button type="submit" className="searchBtn" onClick={() => handlerClick()}>
+        Show my Weather
+      </button>
     </div>
   );
 }

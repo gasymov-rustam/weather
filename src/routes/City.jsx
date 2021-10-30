@@ -62,7 +62,7 @@ export default function City() {
       dispatch({ type: "LOAD", payload: false });
       console.warn("Coords and cityName is not defined! Redirect to 404!");
     }
-  }, [cityName]);
+  }, [cityName, dispatch,settings, foundCityWeather]);
 
   return (
     <>

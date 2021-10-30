@@ -1,4 +1,4 @@
-import { useMemo, useContext, useEffect, useReducer, createContext } from 'react';
+import { useMemo, useContext, useReducer, createContext } from 'react';
 
 const initialState = {
   load: false,

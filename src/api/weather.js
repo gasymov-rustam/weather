@@ -19,10 +19,6 @@ api.interceptors.response.use(
 );
 
 export function getCurrentWeatherByCityName(params) {
-  // let str = '';
-  // console.log(settings);
-  // Object.keys(settings).map(key => str+=`&${key}=${settings[key]}`)
-  console.log(params);
   return api.get(`/weather`, {params});
 }
 export function getCurrentWeatherByCityId(params) {
