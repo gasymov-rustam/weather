@@ -47,6 +47,7 @@
   justify-content: center;
   padding: 40px;
   font-weight: 700;
+  filter: drop-shadow(0 15px 10px black);
   /* flex-direction: column; */
 }
 
@@ -58,7 +59,7 @@
   gap: 20px;
   padding: 20px 0;
   overflow: hidden;
-  color: #fff;
+  filter: drop-shadow(0 15px 10px black);
 }
 
 .formWrapper__Settings label {
