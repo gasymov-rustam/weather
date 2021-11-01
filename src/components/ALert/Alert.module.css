@@ -6,7 +6,6 @@
   left: 0;
   top: 0;
   z-index: 999;
-  color: #fff;
 }
 
 .description {
@@ -32,7 +31,6 @@
   border-radius: 10px;
   background-color:#0A7497;
   align-self: flex-end;
-  color: #fff;
 }
 
 .description > button:hover{

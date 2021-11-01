@@ -16,6 +16,7 @@
 
 .favoritesWrapper > div {
   border-radius: 10px;
+
 }
 .favoritesWrapper > div:nth-child(1) {
   border-radius: 0 0 10px 10px;
@@ -47,6 +48,7 @@
   justify-content: center;
   padding: 40px;
   font-weight: 700;
+  filter: drop-shadow(0 40px 15px black);
   /* flex-direction: column; */
 }
 
@@ -58,7 +60,7 @@
   gap: 20px;
   padding: 20px 0;
   overflow: hidden;
-  color: #fff;
+  filter: drop-shadow(0 40px 15px black);
 }
 
 .formWrapper__Settings label {
@@ -101,11 +103,18 @@
 
 .imgWrapper {
   position: relative;
+  margin-top: 20px;
+  background: rgb(64, 179, 218);
+  padding: 8px;
+  border-radius: 10px;
+  filter: drop-shadow(0 20px 15px black);
+
 }
 
 .imgWrapper > img {
   width: 100%;
   height: auto;
+  border-radius: 10px;
 }
 
 .imgWrapper > button {
@@ -122,7 +131,7 @@
 
 .imgWrapper > button:hover {
   text-decoration: underline;
-  background: lightgray;
+  background: rgb(64, 179, 218);
 }
 
 .cityWrapper {

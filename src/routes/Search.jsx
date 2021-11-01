@@ -1,14 +1,36 @@
 import { useHistory } from "react-router";
 import { getCurrentWeatherByCityName, getCurrentWeatherByCoords } from "../api/weather";
 import { useData } from "../hooks/useData";
-import { useState} from "react";
+import { useState, useEffect } from "react";
 import Alert from "../components/ALert/Alert";
+import MapComponent from "../components/MapComponent/MapComponent";
 
 export default function Search() {
   const [visible, setVisible] = useState(false);
   const [nocoords, setNoCoords] = useState(false);
   const history = useHistory();
   const [{ settings }, dispatch] = useData();
+  const [coordsByMap, setCoordsByMap] = useState(null);
+  
+
+  useEffect(() => {
+    if(Array.isArray(coordsByMap)){
+      (async function(){
+        const [getWeatherPos, getWeatherPosError] = await getCurrentWeatherByCoords({
+          lat: coordsByMap[0],
+          lon: coordsByMap[1],
+          ...settings,
+        });
+        if (getWeatherPosError) {
+          setVisible(true);
+          return;
+        }
+        if (getWeatherPos) {
+          history.push(`/city/${getWeatherPos.name},${getWeatherPos.sys.country}`);
+        }
+      })()
+    }
+  }, [coordsByMap, history, settings]);
 
   async function handlerClick() {
     setNoCoords(false);
@@ -24,11 +46,11 @@ export default function Search() {
           return;
         }
         if (getWeatherPos) {
-          history.push(`/city/${getWeatherPos.name},${getWeatherPos.sys.country}`)
+          history.push(`/city/${getWeatherPos.name},${getWeatherPos.sys.country}`);
         }
       },
       (error) => {
-        if (error){
+        if (error) {
           setVisible(true);
           setNoCoords(true);
           return;
@@ -51,26 +73,27 @@ export default function Search() {
       history.push(`/city/${city.name},${city.sys.country}`);
     }
   }
-  console.log(window.navigator);
-  console.log(typeof window.navigator.language.split("-")[0]);
   return (
-    <div className="formWrapper">
-      {visible && <Alert visibility={setVisible} coords={nocoords} setCoords={setNoCoords}/>}
-      <form onSubmit={handleSubmit} className="searchForm">
-        <input
-          type="search"
-          name="search"
-          required
-          placeholder="'Mexico' or 'London,GB'"
-          className="searchInput"
-        />
-        <button type="submit" className="searchBtn">
-          Search
+    <div>
+      {visible && <Alert visibility={setVisible} coords={nocoords} setCoords={setNoCoords} />}
+      <div className="formWrapper shadow">
+        <form onSubmit={handleSubmit} className="searchForm">
+          <input
+            type="search"
+            name="search"
+            required
+            placeholder="'Mexico' or 'London,GB'"
+            className="searchInput"
+          />
+          <button type="submit" className="searchBtn">
+            Search
+          </button>
+        </form>
+        <button type="submit" className="searchBtn" onClick={() => handlerClick()}>
+          Show my Weather
         </button>
-      </form>
-      <button type="submit" className="searchBtn" onClick={() => handlerClick()}>
-        Show my Weather
-      </button>
+      </div>
+      <MapComponent coordinates={setCoordsByMap} position={coordsByMap}/>
     </div>
   );
 }
