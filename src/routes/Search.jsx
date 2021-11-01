@@ -93,7 +93,7 @@ export default function Search() {
           Show my Weather
         </button>
       </div>
-      <MapComponent coordinates={setCoordsByMap} position={coordsByMap}/>
+      <MapComponent coordinates={setCoordsByMap}/>
     </div>
   );
 }
