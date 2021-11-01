@@ -21,6 +21,9 @@ export default function MapComponent({ coordinates, position }) {
       dispatch({ type: "LOAD", payload: false });
     }, 5000);
   }, [dispatch]);
+  function handlClick(e){
+    
+  }
   // https://yandex.ru/dev/maps/jsapi/doc/2.1/dg/concepts/geocoding/searchControl.html
   // https://yandex.ru/dev/maps/jsbox/2.1/placemark/
   return (
