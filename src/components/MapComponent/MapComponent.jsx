@@ -21,16 +21,16 @@ export default function MapComponent({ coordinates }) {
   const appKey = "a64e6649-3a05-4a97-b86f-49d4aaffcd23";
   useEffect(() => {
     dispatch({ type: "LOAD", payload: true });
-    setTimeout(() => {
-      dispatch({ type: "LOAD", payload: false });
-    }, 5000);
+    // setTimeout(() => {
+    //   dispatch({ type: "LOAD", payload: false });
+    // }, 5000);
   }, [dispatch]);
 
   function handlClick(e) {
     setOpen(true);
     setCurrentPosition(e.get("coords"));
   }
-  
+
   useEffect(() => {
     if (showWeather) {
       coordinates(currentPosition);
