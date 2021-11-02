@@ -6,7 +6,7 @@ export function createRouteWind(number) {
   else if (number < 180) str = <span>south east wind</span>;
   else if (number === 180) str = <span>south wind</span>;
   else if (number < 270) str = <span>southwest wind</span>;
-  else if (number === 270) str = <span>west wind</span>
+  else if (number === 270) str = <span>west wind</span>;
   else str = <span>northwest wind</span>;
   return (
     <>
@@ -23,4 +23,71 @@ export function getTemperatureSymbol(units) {
   ) : (
     <span>&#xb0;</span>
   );
+}
+
+// function debounce(fn, ms) {
+//   let timeout;
+//   return function () {
+//     function fnCall() {
+//       return fn.apply(this, arguments);
+//     }
+//     clearInterval(timeout);
+//     timeout = setTimeout(fnCall, ms);
+//   };
+// }
+// onChange = debounce(onChange, 500);
+function debounce(fn, ms) {
+  let timeout;
+  return function () {
+    function fnCall() {
+      return fn.apply(this, arguments);
+    }
+    clearTimeout(timeout);
+    timeout = setTimeout(fnCall, ms);
+  };
+}
+onChange = debounce(onChange, ms);
+
+// function throttle(func, ms) {
+//   let isThrottled = false;
+//   let savedArgs;
+//   let savedThis;
+//   function wrapper() {
+//     if (isThrottled) {
+//       savedArgs = arguments;
+//       savedThis = this;
+//       return;
+//     }
+//     func.apply(this, arguments);
+//     isThrottled = true;
+//     setTimeout(() => {
+//       isThrottled = false;
+//       if (savedArgs) {
+//         wrapper.apply(savedThis, savedArgs);
+//         savedArgs = savedThis = null;
+//       }
+//     }, ms);
+//   }
+//   return wrapper;
+// }
+function throttle(fn, ms){
+  let isThrottled = false;
+  let savedArgs;
+  let savedThis;
+  function wrapper() {
+if(isThrottled){
+  savedArgs = arguments;
+  savedThis = this;
+  fn.apply(this, arguments);
+  isThrottled(true);
+  setTimeout(()=>{
+    isThrottled = false
+    if(savedArgs){
+      wrapper.apply(savedThis, savedArgs)
+      savedArgs = savedThis = 0
+    }
+  }, ms)
+}
+  }
+  return wrapper
 }

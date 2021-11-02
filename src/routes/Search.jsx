@@ -11,11 +11,11 @@ export default function Search() {
   const history = useHistory();
   const [{ settings }, dispatch] = useData();
   const [coordsByMap, setCoordsByMap] = useState(null);
-  
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
-    if(Array.isArray(coordsByMap)){
-      (async function(){
+    if (Array.isArray(coordsByMap)) {
+      (async function () {
         const [getWeatherPos, getWeatherPosError] = await getCurrentWeatherByCoords({
           lat: coordsByMap[0],
           lon: coordsByMap[1],
@@ -28,7 +28,7 @@ export default function Search() {
         if (getWeatherPos) {
           history.push(`/city/${getWeatherPos.name},${getWeatherPos.sys.country}`);
         }
-      })()
+      })();
     }
   }, [coordsByMap, history, settings]);
 
@@ -73,17 +73,45 @@ export default function Search() {
       history.push(`/city/${city.name},${city.sys.country}`);
     }
   }
+
+  // useEffect(() => {
+  //   let timer = null;
+  //   if (searchQuery) {
+  //     timer = setTimeout(() => {
+  //       (async function () {
+  //         const [suggestions, suggestionsError] = await getCitiesSuggestions({ q: searchQuery });
+  //         if (suggestions) {
+  //           console.log(suggestions.city);
+  //           setQuerySuggetions(suggestions.city);
+  //         }
+  //       })();
+  //     }, 1000);
+  //   }
+  //   return () => clearTimeout(timer);
+  //   // if (searchQuery) {
+  //   //   (async function () {
+  //   //     const [suggestions, suggestionsError] = await throttled(searchQuery);
+  //   //     if (suggestions) {
+  //   //       console.log(suggestions.city);
+  //   //     }
+  //   //   })();
+  //   // }
+  // }, [searchQuery]);
+
   return (
     <div>
+      {console.log(searchQuery)}
       {visible && <Alert visibility={setVisible} coords={nocoords} setCoords={setNoCoords} />}
       <div className="formWrapper shadow">
         <form onSubmit={handleSubmit} className="searchForm">
           <input
             type="search"
             name="search"
+            value={searchQuery}
             required
             placeholder="'Mexico' or 'London,GB'"
             className="searchInput"
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
           <button type="submit" className="searchBtn">
             Search
@@ -93,7 +121,7 @@ export default function Search() {
           Show my Weather
         </button>
       </div>
-      <MapComponent coordinates={setCoordsByMap}/>
+      <MapComponent coordinates={setCoordsByMap} />
     </div>
   );
 }
