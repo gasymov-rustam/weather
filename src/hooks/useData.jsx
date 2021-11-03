@@ -22,9 +22,11 @@ export function DataProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState);
   const memoValue = useMemo(() => [state, dispatch], [state]);
   useEffect(() => {
-    const lang = window.navigator.language.split("-")[1];
-    const units = (lang === 'en' ? "standart": "metric")
-    dispatch({ type: "CHANGE_SETTINGS", payload: { units, lang } });
+    if (!window.localStorage.getItem("settings")) {
+      const lang = window.navigator.language.split("-")[1];
+      const units = lang === "en" ? "standart" : "metric";
+      dispatch({ type: "CHANGE_SETTINGS", payload: { units, lang } });
+    }
   }, []);
   return <DataContext.Provider value={memoValue}>{children}</DataContext.Provider>;
 }

@@ -36,17 +36,6 @@ export function getTemperatureSymbol(units) {
 //   };
 // }
 // onChange = debounce(onChange, 500);
-function debounce(fn, ms) {
-  let timeout;
-  return function () {
-    function fnCall() {
-      return fn.apply(this, arguments);
-    }
-    clearTimeout(timeout);
-    timeout = setTimeout(fnCall, ms);
-  };
-}
-onChange = debounce(onChange, ms);
 
 // function throttle(func, ms) {
 //   let isThrottled = false;
@@ -70,24 +59,3 @@ onChange = debounce(onChange, ms);
 //   }
 //   return wrapper;
 // }
-function throttle(fn, ms){
-  let isThrottled = false;
-  let savedArgs;
-  let savedThis;
-  function wrapper() {
-if(isThrottled){
-  savedArgs = arguments;
-  savedThis = this;
-  fn.apply(this, arguments);
-  isThrottled(true);
-  setTimeout(()=>{
-    isThrottled = false
-    if(savedArgs){
-      wrapper.apply(savedThis, savedArgs)
-      savedArgs = savedThis = 0
-    }
-  }, ms)
-}
-  }
-  return wrapper
-}

@@ -1,5 +1,9 @@
 import { useHistory } from "react-router";
-import { getCurrentWeatherByCityName, getCurrentWeatherByCoords } from "../api/weather";
+import {
+  getCurrentWeatherByCityName,
+  getCurrentWeatherByCoords,
+  getCitiesSuggestions,
+} from "../api/weather";
 import { useData } from "../hooks/useData";
 import { useState, useEffect } from "react";
 import Alert from "../components/ALert/Alert";
@@ -11,7 +15,35 @@ export default function Search() {
   const history = useHistory();
   const [{ settings }, dispatch] = useData();
   const [coordsByMap, setCoordsByMap] = useState(null);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
+  const [querySuggetions, setQuerySuggetions] = useState([]);
+  const [searchSuggests, setSearchSuggests] = useState(true);
+
+  useEffect(() => {
+    dispatch({ type: "LOAD", payload: true });
+    setTimeout(() => {
+      dispatch({ type: "LOAD", payload: false });
+    }, 5000);
+  }, [dispatch]);
+
+  useEffect(() => {
+    let timer = null;
+    if (searchQuery && searchSuggests) {
+      timer = setTimeout(() => {
+        (async function () {
+          const [suggestions, suggestionsError] = await getCitiesSuggestions(searchQuery);
+          if (suggestionsError) {
+            setVisible(true);
+            return;
+          }
+          if (suggestions) {
+            setQuerySuggetions(suggestions.city);
+          }
+        })();
+      }, 1000);
+    }
+    return () => clearTimeout(timer);
+  }, [searchQuery, searchSuggests]);
 
   useEffect(() => {
     if (Array.isArray(coordsByMap)) {
@@ -100,19 +132,47 @@ export default function Search() {
 
   return (
     <div>
-      {console.log(searchQuery)}
       {visible && <Alert visibility={setVisible} coords={nocoords} setCoords={setNoCoords} />}
-      <div className="formWrapper shadow">
-        <form onSubmit={handleSubmit} className="searchForm">
-          <input
-            type="search"
-            name="search"
-            value={searchQuery}
-            required
-            placeholder="'Mexico' or 'London,GB'"
-            className="searchInput"
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
+      <div className="formWrapper">
+        <form
+          onSubmit={handleSubmit}
+          className="searchForm"
+        >
+          <div className="form__Suggestions">
+            <input
+              type="search"
+              name="search"
+              value={searchQuery}
+              required
+              placeholder="'Mexico' or 'London,GB'"
+              // list="abd"
+              className="searchInput"
+              autoComplete="off"
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onClick={() => setSearchSuggests(true)}
+              onBlur={() =>
+                setTimeout(() => {
+                  setSearchSuggests(false)
+                }, 500)
+              }
+              // onFocus={()=> setSearchSuggests(true)}
+            />
+            <ul>
+              {searchSuggests && querySuggetions.map((suggest, i) => (
+                <li
+                  key={i}
+                  onClick={() => {
+                    setQuerySuggetions([]);
+                    setSearchQuery(suggest);
+                    setSearchSuggests(false);
+                  }}
+                >
+                  {suggest}
+                </li>
+              ))}
+            </ul>
+          </div>
+          {/* <datalist id="abd">{querySuggetions.map((suggest, i) => <option key={i}>{suggest}</option>)}</datalist> */}
           <button type="submit" className="searchBtn">
             Search
           </button>

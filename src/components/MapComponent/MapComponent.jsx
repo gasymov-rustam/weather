@@ -17,40 +17,80 @@ export default function MapComponent({ coordinates }) {
   const [{ load }, dispatch] = useData();
   const [open, setOpen] = useState(false);
   const [showWeather, setShowWeather] = useState(false);
+  const [choosenPosition, setChoosenPosition] = useState(null);
   const [currentPosition, setCurrentPosition] = useState(null);
-  const appKey = "a64e6649-3a05-4a97-b86f-49d4aaffcd23";
+  const appKeyYandexMap = "a64e6649-3a05-4a97-b86f-49d4aaffcd23";
+  // const appKeyIpStack = "bebaad6271fd027ce04b4d4eac9402a0";
+
+  useEffect(() => {
+    (async function () {
+      try {
+        const response = await fetch(`http://ipwhois.app/json/`);
+        if (response.ok) {
+          const data = await response.json();
+          setCurrentPosition([data.latitude, data.longitude]);
+        } else {
+          throw new Error(`Unknown command ${response.status}`);
+        }
+      } catch (error) {
+        console.warn(error);
+      }
+    })();
+  }, []);
+  // useEffect(() => {
+  //   (async function () {
+  //     try {
+  //       const response = await fetch(`http://api.ipstack.com/check?access_key=${appKeyIpStack}`);
+  //       if (response.ok) {
+  //         const data = await response.json();
+  //         setCurrentPosition([data.latitude, data.longitude]);
+  //       } else {
+  //         throw new Error(`Unknown command ${response.status}`);
+  //       }
+  //     } catch (error) {
+  //       console.warn(error);
+  //     }
+  //   })();
+  // }, []);
+
   useEffect(() => {
     dispatch({ type: "LOAD", payload: true });
-    // setTimeout(() => {
-    //   dispatch({ type: "LOAD", payload: false });
-    // }, 5000);
+    setTimeout(() => {
+      dispatch({ type: "LOAD", payload: false });
+    }, 5000);
   }, [dispatch]);
 
   function handlClick(e) {
     setOpen(true);
-    setCurrentPosition(e.get("coords"));
+    setChoosenPosition(e.get("coords"));
   }
 
   useEffect(() => {
     if (showWeather) {
-      coordinates(currentPosition);
+      coordinates(choosenPosition);
     }
-  }, [showWeather, coordinates, currentPosition]);
+  }, [showWeather, coordinates, choosenPosition]);
   // https://yandex.ru/dev/maps/jsapi/doc/2.1/dg/concepts/geocoding/searchControl.html
   // https://yandex.ru/dev/maps/jsbox/2.1/placemark/
   return (
     <>
       {open && <Choose open={setOpen} show={setShowWeather} />}
       {load && <Load />}
-      <YMaps query={{ apikey: appKey }}>
+      {/* {console.log(typeof currentPosition[0] === "undefined")} */}
+      <YMaps query={{ apikey: appKeyYandexMap }}>
         <div className={styles.wrapper}>
           <Map
-            defaultState={{ center: [50.450001, 30.523333], zoom: 11 }}
+            defaultState={{
+              center:
+                // !currentPosition ? currentPosition : [48.4593, 35.0387],
+              currentPosition || [48.4593, 35.0387],
+              zoom: 11,
+            }}
             className={styles.map}
             onLoad={() => dispatch({ type: "LOAD", payload: false })}
             onClick={(e) => handlClick(e)}
           >
-            <Placemark geometry={currentPosition} />
+            <Placemark geometry={choosenPosition || currentPosition} />
             <ZoomControl options={{ float: "left" }} />
             <GeolocationControl options={{ float: "right" }} />
             <SearchControl options={{ placeholderContent: "enter city", kind: "locality" }} />
