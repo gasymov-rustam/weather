@@ -20,7 +20,6 @@ export default function MapComponent({ coordinates }) {
   const [choosenPosition, setChoosenPosition] = useState(null);
   const [currentPosition, setCurrentPosition] = useState(null);
   const appKeyYandexMap = "a64e6649-3a05-4a97-b86f-49d4aaffcd23";
-  // const appKeyIpStack = "bebaad6271fd027ce04b4d4eac9402a0";
 
   useEffect(() => {
     (async function () {
@@ -38,6 +37,7 @@ export default function MapComponent({ coordinates }) {
     })();
   }, []);
   // useEffect(() => {
+  // const appKeyIpStack = "bebaad6271fd027ce04b4d4eac9402a0";
   //   (async function () {
   //     try {
   //       const response = await fetch(`http://api.ipstack.com/check?access_key=${appKeyIpStack}`);

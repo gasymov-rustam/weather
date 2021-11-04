@@ -37,7 +37,8 @@ export default function Search() {
             return;
           }
           if (suggestions) {
-            setQuerySuggetions(suggestions.city);
+            // let array = [...suggestions.city].map((city, i) => `${city} - '${suggestions.country[i]}'`)
+            setQuerySuggetions([...suggestions.city].map((city, i) => `${city} - '${suggestions.country[i]}'`));
           }
         })();
       }, 1000);
@@ -133,11 +134,8 @@ export default function Search() {
   return (
     <div>
       {visible && <Alert visibility={setVisible} coords={nocoords} setCoords={setNoCoords} />}
-      <div className="formWrapper">
-        <form
-          onSubmit={handleSubmit}
-          className="searchForm"
-        >
+      <div className="formWrapper shadow">
+        <form onSubmit={handleSubmit} className="searchForm">
           <div className="form__Suggestions">
             <input
               type="search"
@@ -152,24 +150,25 @@ export default function Search() {
               onClick={() => setSearchSuggests(true)}
               onBlur={() =>
                 setTimeout(() => {
-                  setSearchSuggests(false)
+                  setSearchSuggests(false);
                 }, 500)
               }
               // onFocus={()=> setSearchSuggests(true)}
             />
             <ul>
-              {searchSuggests && querySuggetions.map((suggest, i) => (
-                <li
-                  key={i}
-                  onClick={() => {
-                    setQuerySuggetions([]);
-                    setSearchQuery(suggest);
-                    setSearchSuggests(false);
-                  }}
-                >
-                  {suggest}
-                </li>
-              ))}
+              {searchSuggests &&
+                querySuggetions.map((suggest, i) => (
+                  <li
+                    key={i}
+                    onClick={() => {
+                      setQuerySuggetions([]);
+                      setSearchQuery(suggest);
+                      setSearchSuggests(false);
+                    }}
+                  >
+                    {suggest}
+                  </li>
+                ))}
             </ul>
           </div>
           {/* <datalist id="abd">{querySuggetions.map((suggest, i) => <option key={i}>{suggest}</option>)}</datalist> */}
