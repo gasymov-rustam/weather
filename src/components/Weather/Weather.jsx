@@ -5,8 +5,7 @@ import Favorite from "./Favorite";
 import MainInfoWeather from "./MainInfoWeather";
 import CurrentInfoWeather from "./CurrentInfoWeather";
 
-export default function Weather({ data, full, button }) {
-
+export default function Weather({ data, full, button, loading }) {
   return (
     <>
       <div className={styles.wrapper}>

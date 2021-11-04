@@ -30,7 +30,7 @@ export default function Home() {
     <div className="favoritesWrapper">
       {load && <Load />}
       {cities.length > 0 ? (
-        cities.map((item) => <Weather key={item.id} data={item} button />)
+        cities.map((item) => <Weather key={item.id} data={item} button/>)
       ) : (
         <h2 className="homeTitle">Not found favorites cities</h2>
       )}
