@@ -10,7 +10,7 @@ function CurrentInfoWeather({ data }) {
       </p>
       <div className={styles.generalDataWrapper}>
         <img
-          src={`http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`}
+          src={`http://openweathermap.org/img/wn/${data.weather[0].icon}@4x.png`}
           width="150"
           height="150"
           loading="lazy"

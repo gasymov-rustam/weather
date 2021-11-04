@@ -48,7 +48,8 @@
   justify-content: center;
   padding: 40px;
   /* font-weight: 700; */
-  filter: drop-shadow(0 40px 15px black);
+  /* filter: drop-shadow(0 40px 15px black); */
+  box-shadow: 0 40px 30px 0 black;
   position: relative;
   z-index: 10;
 }
@@ -61,7 +62,8 @@
   gap: 20px;
   padding: 20px 0;
   overflow: hidden;
-  filter: drop-shadow(0 40px 15px black);
+  box-shadow: 0 40px 30px 0 black;
+  /* filter: drop-shadow(0 40px 15px black); */
 }
 
 .formWrapper__Settings label {
@@ -76,7 +78,8 @@
 }
 
 .shadow {
-  filter: drop-shadow(0 25px 15px black);
+  /* filter: drop-shadow(0 25px 15px black); */
+  box-shadow: 0 30px 30px -5px black;
 }
 
 .searchInput {
@@ -112,8 +115,7 @@
   background: rgb(64, 179, 218);
   padding: 8px;
   border-radius: 10px;
-  filter: drop-shadow(0 20px 15px black);
-
+  box-shadow: 0 30px 30px 0 black;
 }
 
 .imgWrapper > img {
@@ -152,8 +154,8 @@
 
 .form__Suggestions > ul {
   position: absolute;
+  display: none;
   z-index: 9999;
-  background: black;
   color: #fff;
   font-weight: 300;
   font-size: .9em;
@@ -164,15 +166,20 @@
   margin-top: 5px;
   border-radius: 5px;
 }
-
-.form__Suggestions li {
-  padding: 4px 8px;
-  cursor: pointer;
+.form__Suggestions:focus-within>ul{
+ display: block;
 }
 
-.form__Suggestions li:hover {
+.form__Suggestions button {
+  padding: 4px 8px;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  transition: 0.3s;
+}
+
+.form__Suggestions button:hover,.form__Suggestions button:focus  {
   background: rgb(64, 179, 218);
-  transition: 1s;
 }
 
 /* .aaa {

@@ -1,13 +1,12 @@
-import { useHistory } from "react-router";
-import {
-  getCurrentWeatherByCityName,
-  getCurrentWeatherByCoords,
-  getCitiesSuggestions,
-} from "../api/weather";
-import { useData } from "../hooks/useData";
-import { useState, useEffect } from "react";
-import Alert from "../components/ALert/Alert";
-import MapComponent from "../components/MapComponent/MapComponent";
+import { useHistory } from 'react-router';
+import { getCurrentWeatherByCityName, getCurrentWeatherByCoords, getCitiesSuggestions } from '../api/weather';
+import { useData } from '../hooks/useData';
+import { useState, useEffect } from 'react';
+import Alert from '../components/ALert/Alert';
+import MapComponent from '../components/MapComponent/MapComponent';
+import { asyncDebounce } from '../utils/utils';
+
+const debouncedGetCitiesSuggestions = asyncDebounce(1000, getCitiesSuggestions);
 
 export default function Search() {
   const [visible, setVisible] = useState(false);
@@ -15,35 +14,35 @@ export default function Search() {
   const history = useHistory();
   const [{ settings }, dispatch] = useData();
   const [coordsByMap, setCoordsByMap] = useState(null);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState('');
   const [querySuggetions, setQuerySuggetions] = useState([]);
   const [searchSuggests, setSearchSuggests] = useState(true);
 
   useEffect(() => {
-    dispatch({ type: "LOAD", payload: true });
+    dispatch({ type: 'LOAD', payload: true });
     setTimeout(() => {
-      dispatch({ type: "LOAD", payload: false });
+      dispatch({ type: 'LOAD', payload: false });
     }, 5000);
   }, [dispatch]);
 
   useEffect(() => {
-    let timer = null;
-    if (searchQuery && searchSuggests) {
-      timer = setTimeout(() => {
-        (async function () {
-          const [suggestions, suggestionsError] = await getCitiesSuggestions(searchQuery);
-          if (suggestionsError) {
-            setVisible(true);
-            return;
-          }
-          if (suggestions) {
-            // let array = [...suggestions.city].map((city, i) => `${city} - '${suggestions.country[i]}'`)
-            setQuerySuggetions([...suggestions.city].map((city, i) => `${city} - '${suggestions.country[i]}'`));
-          }
-        })();
-      }, 1000);
-    }
-    return () => clearTimeout(timer);
+    // let timer = null;
+    // if (searchQuery && searchSuggests) {
+    //   timer = setTimeout(() => {
+    //     (async function () {
+    //       const [suggestions, suggestionsError] = await getCitiesSuggestions(searchQuery);
+    //       if (suggestionsError) {
+    //         setVisible(true);
+    //         return;
+    //       }
+    //       if (suggestions) {
+    //         // let array = [...suggestions.city].map((city, i) => `${city} - '${suggestions.country[i]}'`)
+    //         setQuerySuggetions([...suggestions.city].map((city, i) => `${city} - '${suggestions.country[i]}'`));
+    //       }
+    //     })();
+    //   }, 1000);
+    // }
+    // return () => clearTimeout(timer);
   }, [searchQuery, searchSuggests]);
 
   useEffect(() => {
@@ -98,38 +97,38 @@ export default function Search() {
     const [city, cityError] = await getCurrentWeatherByCityName({ q: searchQuery, ...settings });
     if (cityError) {
       setVisible(true);
-      e.target.search.value = "";
+      e.target.search.value = '';
       return;
     }
     if (!cityError) {
-      dispatch({ type: "SET_FOUND_CITY_WEATHER", payload: city });
+      dispatch({ type: 'SET_FOUND_CITY_WEATHER', payload: city });
       history.push(`/city/${city.name},${city.sys.country}`);
     }
   }
 
-  // useEffect(() => {
-  //   let timer = null;
-  //   if (searchQuery) {
-  //     timer = setTimeout(() => {
-  //       (async function () {
-  //         const [suggestions, suggestionsError] = await getCitiesSuggestions({ q: searchQuery });
-  //         if (suggestions) {
-  //           console.log(suggestions.city);
-  //           setQuerySuggetions(suggestions.city);
-  //         }
-  //       })();
-  //     }, 1000);
-  //   }
-  //   return () => clearTimeout(timer);
-  //   // if (searchQuery) {
-  //   //   (async function () {
-  //   //     const [suggestions, suggestionsError] = await throttled(searchQuery);
-  //   //     if (suggestions) {
-  //   //       console.log(suggestions.city);
-  //   //     }
-  //   //   })();
-  //   // }
-  // }, [searchQuery]);
+  async function handleChange(e) {
+    setSearchQuery(e.target.value);
+    if (!e.target.value.trim()) {
+      setQuerySuggetions([]);
+      return
+    }
+    const [suggestions, suggestionsError] = await debouncedGetCitiesSuggestions(e.target.value);
+    if (suggestionsError) {
+      // setVisible(true);
+      return;
+    }
+    if (suggestions) {
+      // let array = [...suggestions.city].map((city, i) => `${city} - '${suggestions.country[i]}'`)
+      const suggestionsArray = suggestions.address.map((addr,i) => {
+        return {
+          address: addr,
+          cityName: suggestions.city[i],
+          countryCode: suggestions.countryCode[i],
+        }
+      }).filter(suggest => suggest.cityName)
+      setQuerySuggetions(suggestionsArray);
+    }
+  }
 
   return (
     <div>
@@ -146,29 +145,29 @@ export default function Search() {
               // list="abd"
               className="searchInput"
               autoComplete="off"
-              onChange={(e) => setSearchQuery(e.target.value)}
-              onClick={() => setSearchSuggests(true)}
-              onBlur={() =>
-                setTimeout(() => {
-                  setSearchSuggests(false);
-                }, 500)
-              }
+              onChange={handleChange}
+              // onClick={() => setSearchSuggests(true)}
+              // onBlur={() =>
+              //   setTimeout(() => {
+              //     setSearchSuggests(false);
+              //   }, 500)
+              // }
               // onFocus={()=> setSearchSuggests(true)}
             />
             <ul>
-              {searchSuggests &&
-                querySuggetions.map((suggest, i) => (
-                  <li
-                    key={i}
+              {querySuggetions.map((suggest, i) => (
+                <li key={i}>
+                  <button
                     onClick={() => {
                       setQuerySuggetions([]);
-                      setSearchQuery(suggest);
+                      setSearchQuery(`${suggest.cityName},${suggest.countryCode}`);
                       setSearchSuggests(false);
                     }}
                   >
-                    {suggest}
-                  </li>
-                ))}
+                    {suggest.address}
+                  </button>
+                </li>
+              ))}
             </ul>
           </div>
           {/* <datalist id="abd">{querySuggetions.map((suggest, i) => <option key={i}>{suggest}</option>)}</datalist> */}

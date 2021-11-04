@@ -1,5 +1,5 @@
 export function createRouteWind(number) {
-  let str = "";
+  let str = '';
   if (number === 0) str = <span>north wind</span>;
   else if (number < 90) str = <span>north east wind</span>;
   else if (number === 90) str = <span>east wind</span>;
@@ -16,46 +16,30 @@ export function createRouteWind(number) {
   );
 }
 export function getTemperatureSymbol(units) {
-  return units === "standart" ? (
-    <span>&#x2109;</span>
-  ) : units === "metric" ? (
-    <span>&#8451;</span>
-  ) : (
-    <span>&#xb0;</span>
-  );
+  return units === 'standart' ? <span>&#x2109;</span> : units === 'metric' ? <span>&#8451;</span> : <span>&#xb0;</span>;
 }
 
-// function debounce(fn, ms) {
-//   let timeout;
-//   return function () {
-//     function fnCall() {
-//       return fn.apply(this, arguments);
-//     }
-//     clearInterval(timeout);
-//     timeout = setTimeout(fnCall, ms);
-//   };
-// }
-// onChange = debounce(onChange, 500);
+export function asyncThrottle(delay, fn) {
+  let throttling = false;
+  let timer = null;
+  return async (...args) => {
+    if (throttling) return;
+    throttling = true;
+    timer = setTimeout(() => {
+      throttling = false;
+    }, delay);
+    return fn(...args);
+  };
+}
 
-// function throttle(func, ms) {
-//   let isThrottled = false;
-//   let savedArgs;
-//   let savedThis;
-//   function wrapper() {
-//     if (isThrottled) {
-//       savedArgs = arguments;
-//       savedThis = this;
-//       return;
-//     }
-//     func.apply(this, arguments);
-//     isThrottled = true;
-//     setTimeout(() => {
-//       isThrottled = false;
-//       if (savedArgs) {
-//         wrapper.apply(savedThis, savedArgs);
-//         savedArgs = savedThis = null;
-//       }
-//     }, ms);
-//   }
-//   return wrapper;
-// }
+export function asyncDebounce(delay, fn) {
+  let timer = null;
+  function sleep(ms) {
+    return new Promise((resolve) => (timer = setTimeout(() => resolve(), ms)));
+  }
+  return async (...args) => {
+    clearTimeout(timer);
+    await sleep(delay);
+    return fn(...args);
+  };
+}

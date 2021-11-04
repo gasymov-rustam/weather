@@ -75,15 +75,15 @@ export default function MapComponent({ coordinates }) {
   return (
     <>
       {open && <Choose open={setOpen} show={setShowWeather} />}
-      {load && <Load />}
       {/* {console.log(typeof currentPosition[0] === "undefined")} */}
       <YMaps query={{ apikey: appKeyYandexMap }}>
         <div className={styles.wrapper}>
+          {load && <Load />}
           <Map
             defaultState={{
               center:
                 // !currentPosition ? currentPosition : [48.4593, 35.0387],
-              currentPosition || [48.4593, 35.0387],
+                currentPosition || [48.4593, 35.0387],
               zoom: 11,
             }}
             className={styles.map}
