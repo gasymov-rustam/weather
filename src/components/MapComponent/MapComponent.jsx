@@ -74,10 +74,10 @@ export default function MapComponent({ coordinates }) {
   // https://yandex.ru/dev/maps/jsbox/2.1/placemark/
   return (
     <>
-      {open && <Choose open={setOpen} show={setShowWeather} />}
       {/* {console.log(typeof currentPosition[0] === "undefined")} */}
       <YMaps query={{ apikey: appKeyYandexMap }}>
         <div className={styles.wrapper}>
+          {open && <Choose open={setOpen} show={setShowWeather} />}
           {load && <Load />}
           <Map
             defaultState={{
